@@ -74,6 +74,7 @@ endif()
 
 set(CMAKE_CXX_FLAGS_ORIG ${CMAKE_CXX_FLAGS})
 if (CMAKE_COMPILER_IS_GNUCXX)
+	# Assimp cannot be compiled with "-fsingle-precision-constant"
 	string(REPLACE "-fsingle-precision-constant" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
 endif(CMAKE_COMPILER_IS_GNUCXX)
 

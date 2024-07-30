@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 if [ ! -d code ]; then
@@ -11,18 +11,26 @@ replace_func () {
 	sed -i "s/\([^:a-zA-Z0-9_]\|^\)\(fabs\|sin\|cos\|cos\|sinh\|cosh\|tan\|tanh\|asin\|acos\|atan\|atan2\|ceil\|floor\|fmod\|hypot\|pow\|log\|log10\|exp\|frexp\|ldexp\|isnan\|isinf\|isfinite\|sqrt\|isqrt\)\(f\|l\)\? *(/\1math::\2(/g" $file
 }
 
-echo "Assimp vanilla version tag: `git describe --exact-match --tags`" >  AssimpRecoilVersion.txt
-echo "Assimp vanilla  commit  id: `git rev-parse HEAD`"                >> AssimpRecoilVersion.txt
-echo "Modified after runnning ../../../tools/scripts/fix_assimp.sh"    >> AssimpRecoilVersion.txt
-
-for file in $(find -name '*.cpp' -or -name '*.h' -or -name '*.inl');
-do
+replace_math () {
 	sed -i 's/<cmath>/"lib\/streflop\/streflop_cond.h"/g' $file
 	sed -i 's/<math.h>/"lib\/streflop\/streflop_cond.h"/g' $file
 	sed -i 's/"math.h"/"lib\/streflop\/streflop_cond.h"/g' $file
 	sed -i 's/std::sort/std::stable_sort/g' $file
 	#sed -i 's/double/float/g' $file
+}
+
+replace_all () {
+	replace_math
 	replace_func
+}
+
+echo "Assimp vanilla version tag: `git describe --exact-match --tags`" >  AssimpRecoilVersion.txt
+echo "Assimp vanilla  commit  id: `git rev-parse HEAD`"                >> AssimpRecoilVersion.txt
+echo "Modified after runnning ../../../tools/scripts/fix_assimp.sh"    >> AssimpRecoilVersion.txt
+
+for file in $(find -name '*.cpp' -or -name '*.h' -or -name '*.inl' -or -name '*.cc');
+do
+	replace_all
 	echo Processed $file
 done
 
@@ -36,6 +44,15 @@ echo Processed $FA
 
 FA=`find -iname "ScenePreprocessor.cpp"`
 sed -i "s/std::min(first, 0.);/std::min(first, static_cast<decltype(first)>(0));/g" $FA
+echo Processed $FA
+
+FA=`find -iname "SortByPTypeProcess.cpp"`
+sed -i "s/*math::tan(nullptr)/*tan(nullptr)/g" $FA
+echo Processed $FA
+
+
+FA=`find -iname "glTF2Asset.inl"`
+sed -i '/^\#include "AssetLib\/glTF\/glTFCommon\.h/i #include <math.h>' $FA
 echo Processed $FA
 
 #sed -i 's/double/float/g' code/PolyTools.h

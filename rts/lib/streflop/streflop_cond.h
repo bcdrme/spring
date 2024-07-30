@@ -27,7 +27,15 @@
 
 
 #if STREFLOP_ENABLED
+#ifdef _MSC_VER
+	#pragma warning( push )
+	#pragma warning( disable : 4100)
+#endif
 #include "streflop.h"
+#ifdef _MSC_VER
+	#pragma warning( pop )
+#endif
+
 
 namespace math {
 	using namespace streflop;
