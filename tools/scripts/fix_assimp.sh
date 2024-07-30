@@ -8,7 +8,7 @@ fi
 
 replace_func () {
 	sed -i "s/\([^:a-zA-Z0-9_]\|^\)std::\(fabs\|sin\|cos\|cos\|sinh\|cosh\|tan\|tanh\|asin\|acos\|atan\|atan2\|ceil\|floor\|fmod\|hypot\|pow\|log\|log10\|exp\|frexp\|ldexp\|isnan\|isinf\|isfinite\|sqrt\|isqrt\)\(f\|l\)\?\b/\1math::\2/g" $file
-	#sed -i "s/\([^:a-zA-Z0-9_]\|^\)\(fabs\|sin\|cos\|cos\|sinh\|cosh\|tan\|tanh\|asin\|acos\|atan\|atan2\|ceil\|floor\|fmod\|hypot\|pow\|log\|log10\|exp\|frexp\|ldexp\|isnan\|isinf\|isfinite\|sqrt\|isqrt\)\(f\|l\)\? *(/\1math::\2(/g" $file
+	sed -i "s/\([^:a-zA-Z0-9_]\|^\)\(fabs\|sin\|cos\|cos\|sinh\|cosh\|tan\|tanh\|asin\|acos\|atan\|atan2\|ceil\|floor\|fmod\|hypot\|pow\|log\|log10\|exp\|frexp\|ldexp\|isnan\|isinf\|isfinite\|sqrt\|isqrt\)\(f\|l\)\? *(/\1math::\2(/g" $file
 }
 
 echo "Assimp vanilla version tag: `git describe --exact-match --tags`" >  AssimpRecoilVersion.txt
