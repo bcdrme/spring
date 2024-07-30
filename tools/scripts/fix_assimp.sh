@@ -11,9 +11,9 @@ replace_func () {
 	#sed -i "s/\([^:a-zA-Z0-9_]\|^\)\(fabs\|sin\|cos\|cos\|sinh\|cosh\|tan\|tanh\|asin\|acos\|atan\|atan2\|ceil\|floor\|fmod\|hypot\|pow\|log\|log10\|exp\|frexp\|ldexp\|isnan\|isinf\|isfinite\|sqrt\|isqrt\)\(f\|l\)\? *(/\1math::\2(/g" $file
 }
 
-#echo "Assimp vanilla version tag: `git describe --exact-match --tags`" >  AssimpRecoilVersion.txt
-#echo "Assimp vanilla  commit  id: `git rev-parse HEAD`"                >> AssimpRecoilVersion.txt
-#echo "Modified after runnning ../../../tools/scripts/fix_assimp.sh"    >> AssimpRecoilVersion.txt
+echo "Assimp vanilla version tag: `git describe --exact-match --tags`" >  AssimpRecoilVersion.txt
+echo "Assimp vanilla  commit  id: `git rev-parse HEAD`"                >> AssimpRecoilVersion.txt
+echo "Modified after runnning ../../../tools/scripts/fix_assimp.sh"    >> AssimpRecoilVersion.txt
 
 for file in $(find -name '*.cpp' -or -name '*.h' -or -name '*.inl');
 do
@@ -39,3 +39,7 @@ sed -i "s/std::min(first, 0.);/std::min(first, static_cast<decltype(first)>(0));
 echo Processed $FA
 
 #sed -i 's/double/float/g' code/PolyTools.h
+
+rm -rf .git || true
+rm -rf .github || true
+rm -rf .gitignore || true
