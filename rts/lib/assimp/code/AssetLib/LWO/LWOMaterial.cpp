@@ -271,7 +271,7 @@ void LWOImporter::ConvertMaterial(const LWO::Surface &surf, aiMaterial *pcMat) {
     if (surf.mSpecularValue && surf.mGlossiness) {
         float fGloss;
         if (mIsLWO2 || mIsLWO3) {
-            fGloss = std::pow(surf.mGlossiness * ai_real(10.0) + ai_real(2.0), ai_real(2.0));
+            fGloss = assimp_math::pow(surf.mGlossiness * ai_real(10.0) + ai_real(2.0), ai_real(2.0));
         } else {
             if (16.0 >= surf.mGlossiness)
                 fGloss = 6.0;
@@ -1045,7 +1045,7 @@ void LWOImporter::LoadLWO2Surface(unsigned int size) {
                 // maximum smoothing angle
             case AI_LWO_SMAN: {
                 AI_LWO_VALIDATE_CHUNK_LENGTH(head.length, SMAN, 4);
-                surf.mMaximumSmoothAngle = std::fabs(GetF4());
+                surf.mMaximumSmoothAngle = assimp_math::fabs(GetF4());
                 break;
             }
                 // vertex color channel to be applied to the surface
@@ -1142,7 +1142,7 @@ void LWOImporter::LoadLWO3Surface(unsigned int size) {
                 // maximum smoothing angle
             case AI_LWO_SMAN: {
                 AI_LWO_VALIDATE_CHUNK_LENGTH(head.length, SMAN, 4);
-                surf.mMaximumSmoothAngle = std::fabs(GetF4());
+                surf.mMaximumSmoothAngle = assimp_math::fabs(GetF4());
                 break;
             }
         }

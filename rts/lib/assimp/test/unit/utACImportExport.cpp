@@ -85,9 +85,9 @@ TEST(utACImportExport, importSampleSubdiv) {
     }
 
     // must not be inf or nan
-    ASSERT_TRUE(std::isfinite(vertexAvg.x));
-    ASSERT_TRUE(std::isfinite(vertexAvg.y));
-    ASSERT_TRUE(std::isfinite(vertexAvg.z));
+    ASSERT_TRUE(assimp_math::isfinite(vertexAvg.x));
+    ASSERT_TRUE(assimp_math::isfinite(vertexAvg.y));
+    ASSERT_TRUE(assimp_math::isfinite(vertexAvg.z));
     EXPECT_NEAR(vertexAvg.x, 0.079997420310974121, 0.0001);
     EXPECT_NEAR(vertexAvg.y, 0.099498569965362549, 0.0001);
     EXPECT_NEAR(vertexAvg.z, -0.10344827175140381, 0.0001);

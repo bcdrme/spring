@@ -164,31 +164,31 @@ void ComputeUVMappingProcess::ComputeSphereMapping(aiMesh *mesh, const aiVector3
         // UV axes. Problems occur around the poles ... unsolvable.
         //
         // The spherical coordinate system looks like this:
-        // x = cos(lon)*cos(lat)
-        // y = sin(lon)*cos(lat)
-        // z = sin(lat)
+        // x = assimp_math::cos(lon)*assimp_math::cos(lat)
+        // y = assimp_math::sin(lon)*assimp_math::cos(lat)
+        // z = assimp_math::sin(lat)
         //
         // Thus we can derive:
         // lat  = arcsin (z)
         // lon  = arctan (y/x)
         for (unsigned int pnt = 0; pnt < mesh->mNumVertices; ++pnt) {
             const aiVector3D diff = (mesh->mVertices[pnt] - center).Normalize();
-            out[pnt] = aiVector3D((std::atan2(diff.z, diff.y) + AI_MATH_PI_F) / AI_MATH_TWO_PI_F,
-                    (std::asin(diff.x) + AI_MATH_HALF_PI_F) / AI_MATH_PI_F, 0.0);
+            out[pnt] = aiVector3D((assimp_math::atan2(diff.z, diff.y) + AI_MATH_PI_F) / AI_MATH_TWO_PI_F,
+                    (assimp_math::asin(diff.x) + AI_MATH_HALF_PI_F) / AI_MATH_PI_F, 0.0);
         }
     } else if (axis * base_axis_y >= angle_epsilon) {
         // ... just the same again
         for (unsigned int pnt = 0; pnt < mesh->mNumVertices; ++pnt) {
             const aiVector3D diff = (mesh->mVertices[pnt] - center).Normalize();
-            out[pnt] = aiVector3D((std::atan2(diff.x, diff.z) + AI_MATH_PI_F) / AI_MATH_TWO_PI_F,
-                    (std::asin(diff.y) + AI_MATH_HALF_PI_F) / AI_MATH_PI_F, 0.0);
+            out[pnt] = aiVector3D((assimp_math::atan2(diff.x, diff.z) + AI_MATH_PI_F) / AI_MATH_TWO_PI_F,
+                    (assimp_math::asin(diff.y) + AI_MATH_HALF_PI_F) / AI_MATH_PI_F, 0.0);
         }
     } else if (axis * base_axis_z >= angle_epsilon) {
         // ... just the same again
         for (unsigned int pnt = 0; pnt < mesh->mNumVertices; ++pnt) {
             const aiVector3D diff = (mesh->mVertices[pnt] - center).Normalize();
-            out[pnt] = aiVector3D((std::atan2(diff.y, diff.x) + AI_MATH_PI_F) / AI_MATH_TWO_PI_F,
-                    (std::asin(diff.z) + AI_MATH_HALF_PI_F) / AI_MATH_PI_F, 0.0);
+            out[pnt] = aiVector3D((assimp_math::atan2(diff.y, diff.x) + AI_MATH_PI_F) / AI_MATH_TWO_PI_F,
+                    (assimp_math::asin(diff.z) + AI_MATH_HALF_PI_F) / AI_MATH_PI_F, 0.0);
         }
     }
     // slower code path in case the mapping axis is not one of the coordinate system axes
@@ -199,8 +199,8 @@ void ComputeUVMappingProcess::ComputeSphereMapping(aiMesh *mesh, const aiVector3
         // again the same, except we're applying a transformation now
         for (unsigned int pnt = 0; pnt < mesh->mNumVertices; ++pnt) {
             const aiVector3D diff = ((mTrafo * mesh->mVertices[pnt]) - center).Normalize();
-            out[pnt] = aiVector3D((std::atan2(diff.y, diff.x) + AI_MATH_PI_F) / AI_MATH_TWO_PI_F,
-                    (std::asin(diff.z) + AI_MATH_HALF_PI_F) / AI_MATH_PI_F, 0.0);
+            out[pnt] = aiVector3D((assimp_math::atan2(diff.y, diff.x) + AI_MATH_PI_F) / AI_MATH_TWO_PI_F,
+                    (assimp_math::asin(diff.z) + AI_MATH_HALF_PI_F) / AI_MATH_PI_F, 0.0);
         }
     }
 
@@ -231,7 +231,7 @@ void ComputeUVMappingProcess::ComputeCylinderMapping(aiMesh *mesh, const aiVecto
             aiVector3D &uv = out[pnt];
 
             uv.y = (pos.x - min.x) / diff;
-            uv.x = (std::atan2(pos.z - center.z, pos.y - center.y) + (ai_real)AI_MATH_PI) / (ai_real)AI_MATH_TWO_PI;
+            uv.x = (assimp_math::atan2(pos.z - center.z, pos.y - center.y) + (ai_real)AI_MATH_PI) / (ai_real)AI_MATH_TWO_PI;
         }
     } else if (axis * base_axis_y >= angle_epsilon) {
         FindMeshCenter(mesh, center, min, max);
@@ -243,7 +243,7 @@ void ComputeUVMappingProcess::ComputeCylinderMapping(aiMesh *mesh, const aiVecto
             aiVector3D &uv = out[pnt];
 
             uv.y = (pos.y - min.y) / diff;
-            uv.x = (std::atan2(pos.x - center.x, pos.z - center.z) + (ai_real)AI_MATH_PI) / (ai_real)AI_MATH_TWO_PI;
+            uv.x = (assimp_math::atan2(pos.x - center.x, pos.z - center.z) + (ai_real)AI_MATH_PI) / (ai_real)AI_MATH_TWO_PI;
         }
     } else if (axis * base_axis_z >= angle_epsilon) {
         FindMeshCenter(mesh, center, min, max);
@@ -255,7 +255,7 @@ void ComputeUVMappingProcess::ComputeCylinderMapping(aiMesh *mesh, const aiVecto
             aiVector3D &uv = out[pnt];
 
             uv.y = (pos.z - min.z) / diff;
-            uv.x = (std::atan2(pos.y - center.y, pos.x - center.x) + (ai_real)AI_MATH_PI) / (ai_real)AI_MATH_TWO_PI;
+            uv.x = (assimp_math::atan2(pos.y - center.y, pos.x - center.x) + (ai_real)AI_MATH_PI) / (ai_real)AI_MATH_TWO_PI;
         }
     }
     // slower code path in case the mapping axis is not one of the coordinate system axes
@@ -271,7 +271,7 @@ void ComputeUVMappingProcess::ComputeCylinderMapping(aiMesh *mesh, const aiVecto
             aiVector3D &uv = out[pnt];
 
             uv.y = (pos.y - min.y) / diff;
-            uv.x = (std::atan2(pos.x - center.x, pos.z - center.z) + (ai_real)AI_MATH_PI) / (ai_real)AI_MATH_TWO_PI;
+            uv.x = (assimp_math::atan2(pos.x - center.x, pos.z - center.z) + (ai_real)AI_MATH_PI) / (ai_real)AI_MATH_TWO_PI;
         }
     }
 

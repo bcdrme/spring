@@ -479,7 +479,7 @@ struct aiFloatKey {
     bool operator!=(const aiFloatKey &o) const { return o.mValue != this->mValue; }
 
     // Only time is compared. This operator is defined
-    // for use with std::sort
+    // for use with std::stable_sort
     bool operator<(const aiFloatKey &o) const { return mTime < o.mTime; }
 
     bool operator>(const aiFloatKey &o) const { return mTime > o.mTime; }

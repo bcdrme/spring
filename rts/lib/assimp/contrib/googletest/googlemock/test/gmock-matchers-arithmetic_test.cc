@@ -31,7 +31,7 @@
 //
 // This file tests some commonly used argument matchers.
 
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <limits>
 #include <memory>
 #include <string>

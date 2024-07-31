@@ -1,6 +1,6 @@
 #include "../../include/assimp/DefaultLogger.hpp"
 #include "UnitTestPCH.h"
-#include <math.h>
+#include <streflop/streflop_cond.h>
 #include <time.h>
 
 int main(int argc, char *argv[]) {

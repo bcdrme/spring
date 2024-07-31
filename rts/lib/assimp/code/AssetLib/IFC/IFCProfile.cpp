@@ -127,7 +127,7 @@ void ProcessParametrizedProfile(const Schema_2x3::IfcParameterizedProfileDef& de
 
         IfcFloat angle = 0.f;
         for(size_t i = 0; i < segments; ++i, angle += delta) {
-            meshout.mVerts.emplace_back( std::cos(angle)*radius, std::sin(angle)*radius, 0.f );
+            meshout.mVerts.emplace_back( assimp_math::cos(angle)*radius, assimp_math::sin(angle)*radius, 0.f );
         }
 
         meshout.mVertcnt.push_back(static_cast<unsigned int>(segments));

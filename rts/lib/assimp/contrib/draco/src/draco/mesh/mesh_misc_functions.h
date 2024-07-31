@@ -84,7 +84,7 @@ InterpolatedVectorT ComputeInterpolatedAttributeValueOnMeshFace(
                                          barycentric_coord[1] * val[1][d] +
                                          barycentric_coord[2] * val[2][d];
     if (std::is_integral<typename InterpolatedVectorT::Scalar>::value) {
-      res[d] = std::floor(interpolated_component + 0.5f);
+      res[d] = assimp_math::floor(interpolated_component + 0.5f);
     } else {
       res[d] = interpolated_component;
     }

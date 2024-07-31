@@ -15,7 +15,7 @@
 #ifndef DRACO_COMPRESSION_ATTRIBUTES_PREDICTION_SCHEMES_MESH_PREDICTION_SCHEME_GEOMETRIC_NORMAL_PREDICTOR_BASE_H_
 #define DRACO_COMPRESSION_ATTRIBUTES_PREDICTION_SCHEMES_MESH_PREDICTION_SCHEME_GEOMETRIC_NORMAL_PREDICTOR_BASE_H_
 
-#include <math.h>
+#include <streflop/streflop_cond.h>
 
 #include "draco/attributes/point_attribute.h"
 #include "draco/compression/attributes/normal_compression_utils.h"

@@ -222,7 +222,7 @@ struct Material : ChunkInfo
         FACETED,AUTOFACETED,SMOOTH
     };
 
-    Material() : alpha(),exp(),ior(),ka(),ks(1.f),
+    Material() : alpha(),assimp_math::exp(),ior(),ka(),ks(1.f),
         matnum(UINT_MAX),
         shader(FLAT),autofacet(FACETED),
         autofacet_angle()

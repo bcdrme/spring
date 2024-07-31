@@ -37,7 +37,7 @@
 #include <cstddef>
 #include <stdexcept>
 #include <assert.h>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <string>
 
 namespace p2t {
@@ -107,7 +107,7 @@ struct Point {
   /// Get the length of this point (the norm).
   double Length() const
   {
-    return sqrt(x * x + y * y);
+    return assimp_math::sqrt(x * x + y * y);
   }
 
   /// Convert this point into a unit point. Returns the Length.

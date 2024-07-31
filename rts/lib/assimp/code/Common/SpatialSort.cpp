@@ -99,7 +99,7 @@ void SpatialSort::Finalize() {
     for (unsigned int i = 0; i < mPositions.size(); i++) {
         mPositions[i].mDistance = CalculateDistance(mPositions[i].mPosition);
     }
-    std::sort(mPositions.begin(), mPositions.end());
+    std::stable_sort(mPositions.begin(), mPositions.end());
     mFinalized = true;
 }
 

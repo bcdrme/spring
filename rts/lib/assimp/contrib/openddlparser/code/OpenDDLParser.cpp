@@ -23,7 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <openddlparser/OpenDDLExport.h>
 #include <openddlparser/OpenDDLParser.h>
 
-#include <math.h>
+#include <streflop/streflop_cond.h>
 #include <algorithm>
 #include <cassert>
 #include <iostream>

@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include <math.h>
+#include <streflop/streflop_cond.h>
 
 namespace o3dgc
 {
@@ -151,7 +151,7 @@ namespace o3dgc
     }
     inline double log2( double n )  
     {  
-        return log(n) / log(2.0);  
+        return assimp_math::log(n) / assimp_math::log(2.0);  
     }
 
     inline O3DGCEndianness SystemEndianness()
@@ -309,32 +309,32 @@ namespace o3dgc
         case 0:
             x = a;
             y = b;
-            z =  (Real) sqrt(max(0.0, 1.0 - x*x-y*y));
+            z =  (Real) assimp_math::sqrt(max(0.0, 1.0 - x*x-y*y));
             break;
         case 1:
             x = -a;
             y = -b;
-            z = -(Real) sqrt(max(0.0, 1.0 - x*x-y*y));
+            z = -(Real) assimp_math::sqrt(max(0.0, 1.0 - x*x-y*y));
             break;
         case 2:
             z = a;
             x = b;
-            y =  (Real) sqrt(max(0.0, 1.0 - x*x-z*z));
+            y =  (Real) assimp_math::sqrt(max(0.0, 1.0 - x*x-z*z));
             break;
         case 3:
             z = -a;
             x = -b;
-            y = -(Real) sqrt(max(0.0, 1.0 - x*x-z*z));
+            y = -(Real) assimp_math::sqrt(max(0.0, 1.0 - x*x-z*z));
             break;
         case 4:
             y = a;
             z = b;
-            x =  (Real) sqrt(max(0.0, 1.0 - y*y-z*z));
+            x =  (Real) assimp_math::sqrt(max(0.0, 1.0 - y*y-z*z));
             break;
         case 5:
             y = -a;
             z = -b;
-            x = -(Real) sqrt(max(0.0, 1.0 - y*y-z*z));
+            x = -(Real) assimp_math::sqrt(max(0.0, 1.0 - y*y-z*z));
             break;
         }
     }
@@ -383,7 +383,7 @@ namespace o3dgc
                 r     = (maxTab[d] - minTab[d]);
                 diag += r*r;
             } 
-            diag = static_cast<Real>(sqrt(diag));
+            diag = static_cast<Real>(assimp_math::sqrt(diag));
             for(unsigned long d = 0; d < dim; ++d)
             {
                  maxTab[d] = minTab[d] + diag;

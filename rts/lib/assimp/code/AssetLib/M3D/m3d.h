@@ -1145,7 +1145,7 @@ void _m3d_mat(M3D_FLOAT *r, m3dv_t *p, m3dv_t *q) {
 }
 #endif
 #if !defined(M3D_NOANIMATION) || !defined(M3D_NONORMALS)
-/* portable fast inverse square root calculation. returns 1/sqrt(x) */
+/* portable fast inverse square root calculation. returns 1/assimp_math::sqrt(x) */
 static M3D_FLOAT _m3d_rsq(M3D_FLOAT x) {
 #ifdef M3D_DOUBLE
     return ((M3D_FLOAT)15.0 / (M3D_FLOAT)8.0) + ((M3D_FLOAT)-5.0 / (M3D_FLOAT)4.0) * x + ((M3D_FLOAT)3.0 / (M3D_FLOAT)8.0) * x * x;
@@ -2695,7 +2695,7 @@ m3db_t *m3d_pose(m3d_t *model, M3D_INDEX actionid, uint32_t msec) {
 #if 0
                     /* don't use SLERP, requires two more variables, libm linkage and it is slow (but nice) */
                     a = (M3D_FLOAT)1.0 - t; b = t;
-                    if(d < (M3D_FLOAT)0.999999) { c = acosf(d); b = 1 / sinf(c); a = sinf(a * c) * b; b *= sinf(t * c) * s; }
+                    if(d < (M3D_FLOAT)0.999999) { c = assimp_math::acos(d); b = 1 / assimp_math::sin(c); a = assimp_math::sin(a * c) * b; b *= assimp_math::sin(t * c) * s; }
                     v->x = p->x * a + f->x * b;
                     v->y = p->y * a + f->y * b;
                     v->z = p->z * a + f->z * b;

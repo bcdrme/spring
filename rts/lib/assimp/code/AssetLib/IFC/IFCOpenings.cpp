@@ -289,18 +289,18 @@ void InsertWindowContours(const ContourVector& contours, const std::vector<TempO
             const IfcVector2& v = contour[n];
 
             bool hit = false;
-            if (std::fabs(v.x-bb.first.x)<epsilon) {
+            if (assimp_math::fabs(v.x-bb.first.x)<epsilon) {
                 edge.x = bb.first.x;
                 hit = true;
-            } else if (std::fabs(v.x-bb.second.x)<epsilon) {
+            } else if (assimp_math::fabs(v.x-bb.second.x)<epsilon) {
                 edge.x = bb.second.x;
                 hit = true;
             }
 
-            if (std::fabs(v.y-bb.first.y)<epsilon) {
+            if (assimp_math::fabs(v.y-bb.first.y)<epsilon) {
                 edge.y = bb.first.y;
                 hit = true;
-            } else if (std::fabs(v.y-bb.second.y)<epsilon) {
+            } else if (assimp_math::fabs(v.y-bb.second.y)<epsilon) {
                 edge.y = bb.second.y;
                 hit = true;
             }
@@ -326,15 +326,15 @@ void InsertWindowContours(const ContourVector& contours, const std::vector<TempO
                     if (edge != contour[last_hit]) {
                         IfcVector2 corner = edge;
 
-                        if (std::fabs(contour[last_hit].x-bb.first.x)<epsilon) {
+                        if (assimp_math::fabs(contour[last_hit].x-bb.first.x)<epsilon) {
                             corner.x = bb.first.x;
-                        } else if (std::fabs(contour[last_hit].x-bb.second.x)<epsilon) {
+                        } else if (assimp_math::fabs(contour[last_hit].x-bb.second.x)<epsilon) {
                             corner.x = bb.second.x;
                         }
 
-                        if (std::fabs(contour[last_hit].y-bb.first.y)<epsilon) {
+                        if (assimp_math::fabs(contour[last_hit].y-bb.first.y)<epsilon) {
                             corner.y = bb.first.y;
-                        } else if (std::fabs(contour[last_hit].y-bb.second.y)<epsilon) {
+                        } else if (assimp_math::fabs(contour[last_hit].y-bb.second.y)<epsilon) {
                             corner.y = bb.second.y;
                         }
 
@@ -552,10 +552,10 @@ using ContourRefVector = std::vector<std::pair<
 bool BoundingBoxesAdjacent(const BoundingBox& bb, const BoundingBox& ibb) {
     // TODO: I'm pretty sure there is a much more compact way to check this
     const IfcFloat epsilon = Math::getEpsilon<float>();
-    return  (std::fabs(bb.second.x - ibb.first.x) < epsilon && bb.first.y <= ibb.second.y && bb.second.y >= ibb.first.y) ||
-        (std::fabs(bb.first.x - ibb.second.x) < epsilon && ibb.first.y <= bb.second.y && ibb.second.y >= bb.first.y) ||
-        (std::fabs(bb.second.y - ibb.first.y) < epsilon && bb.first.x <= ibb.second.x && bb.second.x >= ibb.first.x) ||
-        (std::fabs(bb.first.y - ibb.second.y) < epsilon && ibb.first.x <= bb.second.x && ibb.second.x >= bb.first.x);
+    return  (assimp_math::fabs(bb.second.x - ibb.first.x) < epsilon && bb.first.y <= ibb.second.y && bb.second.y >= ibb.first.y) ||
+        (assimp_math::fabs(bb.first.x - ibb.second.x) < epsilon && ibb.first.y <= bb.second.y && ibb.second.y >= bb.first.y) ||
+        (assimp_math::fabs(bb.second.y - ibb.first.y) < epsilon && bb.first.x <= ibb.second.x && bb.second.x >= ibb.first.x) ||
+        (assimp_math::fabs(bb.first.y - ibb.second.y) < epsilon && ibb.first.x <= bb.second.x && ibb.second.x >= bb.first.x);
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -576,11 +576,11 @@ bool IntersectingLineSegments(const IfcVector2& n0, const IfcVector2& n1,
 
     static const IfcFloat inf = std::numeric_limits<IfcFloat>::infinity();
 
-    if (!(n0_to_m0.SquareLength() < e*e || std::fabs(n0_to_m0 * n0_to_n1) / (n0_to_m0.Length() * n0_to_n1.Length()) > 1-1e-5 )) {
+    if (!(n0_to_m0.SquareLength() < e*e || assimp_math::fabs(n0_to_m0 * n0_to_n1) / (n0_to_m0.Length() * n0_to_n1.Length()) > 1-1e-5 )) {
         return false;
     }
 
-    if (!(n1_to_m1.SquareLength() < e*e || std::fabs(n1_to_m1 * n0_to_n1) / (n1_to_m1.Length() * n0_to_n1.Length()) > 1-1e-5 )) {
+    if (!(n1_to_m1.SquareLength() < e*e || assimp_math::fabs(n1_to_m1 * n0_to_n1) / (n1_to_m1.Length() * n0_to_n1.Length()) > 1-1e-5 )) {
         return false;
     }
 
@@ -592,24 +592,24 @@ bool IntersectingLineSegments(const IfcVector2& n0, const IfcVector2& n1,
     // the higher absolute difference is big enough as to avoid
     // divisions by zero, the case 0/0 ~ infinity is detected and
     // handled separately.
-    if(std::fabs(n0_to_n1.x) > std::fabs(n0_to_n1.y)) {
+    if(assimp_math::fabs(n0_to_n1.x) > assimp_math::fabs(n0_to_n1.y)) {
         s0 = n0_to_m0.x / n0_to_n1.x;
         s1 = n0_to_m1.x / n0_to_n1.x;
 
-        if (std::fabs(s0) == inf && std::fabs(n0_to_m0.x) < smalle) {
+        if (assimp_math::fabs(s0) == inf && assimp_math::fabs(n0_to_m0.x) < smalle) {
             s0 = 0.;
         }
-        if (std::fabs(s1) == inf && std::fabs(n0_to_m1.x) < smalle) {
+        if (assimp_math::fabs(s1) == inf && assimp_math::fabs(n0_to_m1.x) < smalle) {
             s1 = 0.;
         }
     } else {
         s0 = n0_to_m0.y / n0_to_n1.y;
         s1 = n0_to_m1.y / n0_to_n1.y;
 
-        if (std::fabs(s0) == inf && std::fabs(n0_to_m0.y) < smalle) {
+        if (assimp_math::fabs(s0) == inf && assimp_math::fabs(n0_to_m0.y) < smalle) {
             s0 = 0.;
         }
-        if (std::fabs(s1) == inf && std::fabs(n0_to_m1.y) < smalle) {
+        if (assimp_math::fabs(s1) == inf && assimp_math::fabs(n0_to_m1.y) < smalle) {
             s1 = 0.;
         }
     }
@@ -624,7 +624,7 @@ bool IntersectingLineSegments(const IfcVector2& n0, const IfcVector2& n1,
     s0 = std::min(1.0,s0);
     s1 = std::min(1.0,s1);
 
-    if (std::fabs(s1-s0) < e) {
+    if (assimp_math::fabs(s1-s0) < e) {
         return false;
     }
 
@@ -705,7 +705,7 @@ void FindAdjacentContours(ContourVector::iterator current, const ContourVector& 
 // ------------------------------------------------------------------------------------------------
 AI_FORCE_INLINE bool LikelyBorder(const IfcVector2& vdelta) {
     const IfcFloat dot_point_epsilon = static_cast<IfcFloat>(Math::getEpsilon<float>());
-    return std::fabs(vdelta.x * vdelta.y) < dot_point_epsilon;
+    return assimp_math::fabs(vdelta.x * vdelta.y) < dot_point_epsilon;
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -757,9 +757,9 @@ void FindBorderContours(ContourVector::iterator current) {
 
 // ------------------------------------------------------------------------------------------------
 AI_FORCE_INLINE bool LikelyDiagonal(IfcVector2 vdelta) {
-    vdelta.x = std::fabs(vdelta.x);
-    vdelta.y = std::fabs(vdelta.y);
-    return (std::fabs(vdelta.x-vdelta.y) < 0.8 * std::max(vdelta.x, vdelta.y));
+    vdelta.x = assimp_math::fabs(vdelta.x);
+    vdelta.y = assimp_math::fabs(vdelta.y);
+    return (assimp_math::fabs(vdelta.x-vdelta.y) < 0.8 * std::max(vdelta.x, vdelta.y));
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -1005,7 +1005,7 @@ IfcMatrix4 ProjectOntoPlane(std::vector<IfcVector2>& out_contour,
     }
 #ifdef ASSIMP_BUILD_DEBUG
     const IfcFloat det = m.Determinant();
-    ai_assert(std::fabs(det-1) < 1e-5);
+    ai_assert(assimp_math::fabs(det-1) < 1e-5);
 #endif
 
     IfcFloat zcoord = 0;
@@ -1059,7 +1059,7 @@ IfcMatrix4 ProjectOntoPlane(std::vector<IfcVector2>& out_contour,
         const IfcVector3& vv = m * x;
 
         out_contour2.emplace_back(vv.x,vv.y);
-        ai_assert(std::fabs(vv.z) < vmax.z + 1e-8);
+        ai_assert(assimp_math::fabs(vv.z) < vmax.z + 1e-8);
     }
 
     for(size_t i = 0; i < out_contour.size(); ++i) {
@@ -1118,7 +1118,7 @@ bool GenerateOpenings(std::vector<TempOpening>& openings,
         TempMesh* profile_data =  opening.profileMesh.get();
         bool is_2d_source = false;
         if (opening.profileMesh2D && norm_extrusion_dir.SquareLength() > 0) {
-            if (std::fabs(norm_extrusion_dir * nor) > 0.9) {
+            if (assimp_math::fabs(norm_extrusion_dir * nor) > 0.9) {
                 profile_data = opening.profileMesh2D.get();
                 is_2d_source = true;
             }
@@ -1203,7 +1203,7 @@ bool GenerateOpenings(std::vector<TempOpening>& openings,
             ai_assert(!is_2d_source);
             const IfcVector2 area = vpmax-vpmin;
             const IfcVector2 area2 = vpmax2-vpmin2;
-            if (temp_contour.size() <= 2 || std::fabs(area2.x * area2.y) > std::fabs(area.x * area.y)) {
+            if (temp_contour.size() <= 2 || assimp_math::fabs(area2.x * area2.y) > assimp_math::fabs(area.x * area.y)) {
                 temp_contour.swap(temp_contour2);
 
                 vpmax = vpmax2;
@@ -1215,7 +1215,7 @@ bool GenerateOpenings(std::vector<TempOpening>& openings,
         }
 
         // TODO: This epsilon may be too large
-        const IfcFloat epsilon = std::fabs(dmax-dmin) * 0.0001;
+        const IfcFloat epsilon = assimp_math::fabs(dmax-dmin) * 0.0001;
         if (!is_2d_source && check_intersection && (0 < dmin-epsilon || 0 > dmax+epsilon)) {
             continue;
         }
@@ -1224,7 +1224,7 @@ bool GenerateOpenings(std::vector<TempOpening>& openings,
 
         // Skip over very small openings - these are likely projection errors
         // (i.e. they don't belong to this side of the wall)
-        if(std::fabs(vpmax.x - vpmin.x) * std::fabs(vpmax.y - vpmin.y) < static_cast<IfcFloat>(1e-10)) {
+        if(assimp_math::fabs(vpmax.x - vpmin.x) * assimp_math::fabs(vpmax.y - vpmin.y) < static_cast<IfcFloat>(1e-10)) {
             continue;
         }
         std::vector<TempOpening*> joined_openings(1, &opening);
@@ -1360,7 +1360,7 @@ std::vector<IfcVector2> GetContourInPlane2D(const std::shared_ptr<TempMesh>& mes
 
     const auto outernor = ((mesh->mVerts[2] - mesh->mVerts[0]) ^ (mesh->mVerts[1] - mesh->mVerts[0])).Normalize();
     const IfcFloat dot = planeNor * outernor;
-    if (std::fabs(dot) < 1.f - ai_epsilon) {
+    if (assimp_math::fabs(dot) < 1.f - ai_epsilon) {
         std::stringstream msg;
         msg << "Skipping: Unaligned opening (" << planeNor.x << ", " << planeNor.y << ", " << planeNor.z << ")";
         msg << " . ( " << outernor.x << ", " << outernor.y << ", " << outernor.z << ") = " << dot;
@@ -1381,7 +1381,7 @@ std::vector<IfcVector2> GetContourInPlane2D(const std::shared_ptr<TempMesh>& mes
     for(const IfcVector3& xx : mesh->mVerts) {
         IfcVector3 vv = planeSpace * xx,vv_extr = planeSpace * (xx + extrusionDir);
 
-        const bool is_extruded_side = std::fabs(vv.z - planeOffset) > std::fabs(vv_extr.z - planeOffset);
+        const bool is_extruded_side = assimp_math::fabs(vv.z - planeOffset) > assimp_math::fabs(vv_extr.z - planeOffset);
         if(first) {
             first = false;
             if(dot > 0.f) {
@@ -1405,7 +1405,7 @@ const ai_real close{ ai_epsilon };
 
 static bool isClose(IfcVector2 first,IfcVector2 second) {
     auto diff = (second - first);
-    return (std::fabs(diff.x) < close && std::fabs(diff.y) < close);
+    return (assimp_math::fabs(diff.x) < close && assimp_math::fabs(diff.y) < close);
 }
 
 static void logSegment(std::pair<IfcVector2,IfcVector2> segment) {
@@ -1459,7 +1459,7 @@ std::vector<std::vector<IfcVector2>> GetContoursInPlane3D(const std::shared_ptr<
             IfcVector2 firstPoint;
             bool gotFirstPoint(false);
 
-            if(std::fabs(v0.z - planeOffset) < close) {
+            if(assimp_math::fabs(v0.z - planeOffset) < close) {
                 // first point is on the plane
                 firstPoint.x = v0.x;
                 firstPoint.y = v0.y;
@@ -1472,7 +1472,7 @@ std::vector<std::vector<IfcVector2>> GetContoursInPlane3D(const std::shared_ptr<
                 vn = planeSpace * mesh->mVerts[vI];
                 IfcVector3 intersection;
 
-                if(std::fabs(vn.z - planeOffset) < close) {
+                if(assimp_math::fabs(vn.z - planeOffset) < close) {
                     // on the plane
                     intersection = vn;
                 } else if((vn.z > planeOffset) != (vp.z > planeOffset)) {
@@ -1486,7 +1486,7 @@ std::vector<std::vector<IfcVector2>> GetContoursInPlane3D(const std::shared_ptr<
                 }
 
                 if(!gotFirstPoint) {
-                    if(std::fabs(vp.z - planeOffset) < close) {
+                    if(assimp_math::fabs(vp.z - planeOffset) < close) {
                         // just had a second line along the plane
                         firstPoint.x = vp.x;
                         firstPoint.y = vp.y;

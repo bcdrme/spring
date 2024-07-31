@@ -50,9 +50,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #ifdef __cplusplus
-#   include <cmath>
+#   include <streflop/streflop_cond.h>
 #else
-#   include <math.h>
+#   include <streflop/streflop_cond.h>
 #endif
 
 #include <assimp/defs.h>

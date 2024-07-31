@@ -1,6 +1,6 @@
 #include "draco/core/math_utils.h"
 
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <random>
 
 #include "draco/core/draco_test_base.h"
@@ -17,7 +17,7 @@ TEST(MathUtils, IntSqrt) {
 
   for (int i = 0; i < 10000; ++i) {
     const uint64_t number = distribution(generator);
-    ASSERT_EQ(IntSqrt(number), static_cast<uint64_t>(floor(std::sqrt(number))));
+    ASSERT_EQ(IntSqrt(number), static_cast<uint64_t>(assimp_math::floor(assimp_math::sqrt(number))));
   }
 }
 

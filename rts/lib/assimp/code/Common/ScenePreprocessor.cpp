@@ -282,6 +282,6 @@ void ScenePreprocessor::ProcessAnimation(aiAnimation *anim) {
 
     if (anim->mDuration == -1.) {
         ASSIMP_LOG_VERBOSE_DEBUG("ScenePreprocessor: Setting animation duration");
-        anim->mDuration = last - std::min(first, 0.);
+        anim->mDuration = last - std::min(first, static_cast<decltype(first)>(0));
     }
 }

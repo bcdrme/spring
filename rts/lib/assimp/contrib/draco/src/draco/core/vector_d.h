@@ -19,7 +19,7 @@
 
 #include <algorithm>
 #include <array>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <limits>
 
 #include "draco/core/macros.h"
@@ -256,7 +256,7 @@ class VectorD {
   }
 
   void Normalize() {
-    const Scalar magnitude = std::sqrt(this->SquaredNorm());
+    const Scalar magnitude = assimp_math::sqrt(this->SquaredNorm());
     if (magnitude == 0) {
       return;
     }

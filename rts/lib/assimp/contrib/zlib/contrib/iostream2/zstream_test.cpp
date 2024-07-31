@@ -1,5 +1,5 @@
 #include "zstream.h"
-#include <math.h>
+#include <streflop/streflop_cond.h>
 #include <stdlib.h>
 #include <iomanip.h>
 

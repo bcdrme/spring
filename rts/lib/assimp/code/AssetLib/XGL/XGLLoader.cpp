@@ -295,7 +295,7 @@ aiNode *XGLImporter::ReadObject(XmlNode &node, TempScope &scope) {
 	// of the multimap implementation with respect to the ordering of entries with same values.
 	// C++11 gives the guarantee that it uses insertion order, before it is implementation-specific.
 	// Sort by material id to always guarantee a deterministic result.
-	std::sort(meshes.begin(), meshes.end(), SortMeshByMaterialId(scope));
+	std::stable_sort(meshes.begin(), meshes.end(), SortMeshByMaterialId(scope));
 
 	// link meshes to node
 	nd->mNumMeshes = static_cast<unsigned int>(meshes.size());
@@ -357,7 +357,7 @@ aiMatrix4x4 XGLImporter::ReadTrafo(XmlNode &node) {
     up.Normalize();
 
     right = forward ^ up;
-    if (std::fabs(up * forward) > 1e-4) {
+    if (assimp_math::fabs(up * forward) > 1e-4) {
 	    // this is definitely wrong - a degenerate coordinate space ruins everything
 	    // so substitute identity transform.
 	    LogError("<forward> and <up> vectors in <transform> are skewing, ignoring trafo");

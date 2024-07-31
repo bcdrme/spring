@@ -203,7 +203,7 @@ private:
         // [RFC 4672: "Numeric values that cannot be represented as sequences of digits
         // (such as Infinity and NaN) are not permitted."]
         // Nevertheless, many parsers will accept the special keywords Infinity, -Infinity and NaN
-        if (std::numeric_limits<float>::infinity() == fabs(f)) {
+        if (std::numeric_limits<float>::infinity() == assimp_math::fabs(f)) {
             if (flags & Flag_WriteSpecialFloats) {
                 stream << (f < 0 ? "\"-" : "\"") + std::string("Infinity\"");
                 return stream;

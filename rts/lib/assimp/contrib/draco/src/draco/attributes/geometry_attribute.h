@@ -17,7 +17,7 @@
 
 #include <algorithm>
 #include <array>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <limits>
 
 #include "draco/attributes/geometry_indices.h"
@@ -365,18 +365,18 @@ class GeometryAttribute {
         // Make sure the floating point |in_value| is not NaN and not Inf as
         // integral type OutT is unable to represent these values.
         if (sizeof(in_value) > sizeof(double)) {
-          if (std::isnan(static_cast<long double>(in_value)) ||
-              std::isinf(static_cast<long double>(in_value))) {
+          if (assimp_math::isnan(static_cast<long double>(in_value)) ||
+              assimp_math::isinf(static_cast<long double>(in_value))) {
             return false;
           }
         } else if (sizeof(in_value) > sizeof(float)) {
-          if (std::isnan(static_cast<double>(in_value)) ||
-              std::isinf(static_cast<double>(in_value))) {
+          if (assimp_math::isnan(static_cast<double>(in_value)) ||
+              assimp_math::isinf(static_cast<double>(in_value))) {
             return false;
           }
         } else {
-          if (std::isnan(static_cast<float>(in_value)) ||
-              std::isinf(static_cast<float>(in_value))) {
+          if (assimp_math::isnan(static_cast<float>(in_value)) ||
+              assimp_math::isinf(static_cast<float>(in_value))) {
             return false;
           }
         }
@@ -412,7 +412,7 @@ class GeometryAttribute {
       // Expand the float to the range of the output integer and round it to the
       // nearest representable value. Use doubles for the math to ensure the
       // integer values are represented properly during the conversion process.
-      *out_value = static_cast<OutT>(std::floor(
+      *out_value = static_cast<OutT>(assimp_math::floor(
           in_value * static_cast<double>(std::numeric_limits<OutT>::max()) +
           0.5));
     } else {

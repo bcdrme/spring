@@ -16,7 +16,7 @@
 #define DRACO_COMPRESSION_ENTROPY_RANS_SYMBOL_ENCODER_H_
 
 #include <algorithm>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <cstring>
 
 #include "draco/compression/entropy/ans.h"
@@ -148,7 +148,7 @@ bool RAnsSymbolEncoder<unique_symbols_bit_length_t>::Create(
             break;
           }
           const int32_t new_prob = static_cast<int32_t>(
-              floor(act_rel_error_d *
+              assimp_math::floor(act_rel_error_d *
                     static_cast<double>(probability_table_[symbol_id].prob)));
           int32_t fix = probability_table_[symbol_id].prob - new_prob;
           if (fix == 0u) {
@@ -195,7 +195,7 @@ bool RAnsSymbolEncoder<unique_symbols_bit_length_t>::Create(
         static_cast<double>(probability_table_[i].prob) / rans_precision_d;
     num_bits += static_cast<double>(frequencies[i]) * log2(norm_prob);
   }
-  num_expected_bits_ = static_cast<uint64_t>(ceil(-num_bits));
+  num_expected_bits_ = static_cast<uint64_t>(assimp_math::ceil(-num_bits));
   if (!EncodeTable(buffer)) {
     return false;
   }

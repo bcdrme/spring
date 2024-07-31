@@ -147,7 +147,7 @@ public:
         return *this;
     }
 
-    // swap() for std::sort() and other potential use in STL.
+    // swap() for std::stable_sort() and other potential use in STL.
     friend inline void swap(GenericMember& a, GenericMember& b) RAPIDJSON_NOEXCEPT {
         a.name.Swap(b.name);
         a.value.Swap(b.value);

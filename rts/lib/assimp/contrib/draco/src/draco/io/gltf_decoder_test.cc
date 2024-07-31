@@ -14,7 +14,7 @@
 //
 #include "draco/io/gltf_decoder.h"
 
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <limits>
 #include <memory>
 #include <string>

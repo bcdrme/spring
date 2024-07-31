@@ -46,7 +46,7 @@
 #include "gtest/gtest.h"
 #include "src/gtest-internal-inl.h"  // for UnitTestOptions
 
-using ::std::sort;
+using ::std::stable_sort;
 using ::std::vector;
 
 using ::testing::AddGlobalTestEnvironment;

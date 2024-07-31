@@ -177,7 +177,7 @@ void AnimResolver::UpdateAnimRangeSetup() {
         case LWO::PrePostBehaviour_OffsetRepeat:
         case LWO::PrePostBehaviour_Repeat:
         case LWO::PrePostBehaviour_Oscillate: {
-            const double start_time = delta - std::fmod(my_first - first, delta);
+            const double start_time = delta - assimp_math::fmod(my_first - first, delta);
             std::vector<LWO::Key>::iterator n = std::find_if((*it).keys.begin(), (*it).keys.end(),
                                                     [start_time](double t) { return start_time > t; }), m;
 

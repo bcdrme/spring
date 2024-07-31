@@ -316,7 +316,7 @@ bool TriangulateProcess::TriangulateMesh( aiMesh* pMesh) {
                 diag.Normalize();
                 right.Normalize();
 
-                const float angle = std::acos(left*diag) + std::acos(right*diag);
+                const float angle = assimp_math::acos(left*diag) + assimp_math::acos(right*diag);
                 if (angle > AI_MATH_PI_F) {
                     // this is the concave point
                     start_vertex = i;

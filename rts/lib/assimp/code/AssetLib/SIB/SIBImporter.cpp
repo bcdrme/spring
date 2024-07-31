@@ -662,11 +662,11 @@ static void ReadLightInfo(aiLight *light, StreamReaderLE *stream) {
     // spot cutoff/exponent. AssImp unfortunately, does not.
     // Let's try and approximate it by solving for the
     // 99% and 1% percentiles.
-    //    OpenGL: I = cos(angle)^E
-    //   Solving: angle = acos(I^(1/E))
+    //    OpenGL: I = assimp_math::cos(angle)^E
+    //   Solving: angle = assimp_math::acos(I^(1/E))
     ai_real E = ai_real(1.0) / std::max(spotExponent, (ai_real)0.00001);
-    ai_real inner = std::acos(std::pow((ai_real)0.99, E));
-    ai_real outer = std::acos(std::pow((ai_real)0.01, E));
+    ai_real inner = assimp_math::acos(assimp_math::pow((ai_real)0.99, E));
+    ai_real outer = assimp_math::acos(assimp_math::pow((ai_real)0.01, E));
 
     // Apply the cutoff.
     outer = std::min(outer, AI_DEG_TO_RAD(spotCutoff));

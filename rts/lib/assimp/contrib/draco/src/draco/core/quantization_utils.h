@@ -23,7 +23,7 @@
 
 #include <stdint.h>
 
-#include <cmath>
+#include <streflop/streflop_cond.h>
 
 #include "draco/core/macros.h"
 
@@ -46,7 +46,7 @@ class Quantizer {
   void Init(float delta);
   inline int32_t QuantizeFloat(float val) const {
     val *= inverse_delta_;
-    return static_cast<int32_t>(floor(val + 0.5f));
+    return static_cast<int32_t>(assimp_math::floor(val + 0.5f));
   }
   inline int32_t operator()(float val) const { return QuantizeFloat(val); }
 

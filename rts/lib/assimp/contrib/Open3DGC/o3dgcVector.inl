@@ -66,7 +66,7 @@ namespace o3dgc
         double a = (double) (m_data[0]);
         double b = (double) (m_data[1]);
         double c = (double) (m_data[2]);
-        return sqrt(a*a+b*b+c*c);
+        return assimp_math::sqrt(a*a+b*b+c*c);
     }
     template <typename T>
     inline  void Vec3<T>::operator= (const Vec3 & rhs)
@@ -210,7 +210,7 @@ namespace o3dgc
     { 
         double a = (double) (m_data[0]);
         double b = (double) (m_data[1]);
-        return sqrt(a*a+b*b);
+        return assimp_math::sqrt(a*a+b*b);
     }
     template <typename T>
     inline  void Vec2<T>::operator= (const Vec2 & rhs)

@@ -10,7 +10,7 @@
 namespace Assimp {
 
 aiVector3D X3DGeoHelper::make_point2D(float angle, float radius) {
-    return aiVector3D(radius * std::cos(angle), radius * std::sin(angle), 0);
+    return aiVector3D(radius * assimp_math::cos(angle), radius * assimp_math::sin(angle), 0);
 }
 
 void X3DGeoHelper::make_arc2D(float pStartAngle, float pEndAngle, float pRadius, size_t numSegments, std::list<aiVector3D> &pVertices) {
@@ -26,7 +26,7 @@ void X3DGeoHelper::make_arc2D(float pStartAngle, float pEndAngle, float pRadius,
     }
 
     // calculate arc angle and check type of arc
-    float angle_full = std::fabs(pEndAngle - pStartAngle);
+    float angle_full = assimp_math::fabs(pEndAngle - pStartAngle);
     if ((angle_full > AI_MATH_TWO_PI_F) || (angle_full == 0.0f)) {
         angle_full = AI_MATH_TWO_PI_F;
     }

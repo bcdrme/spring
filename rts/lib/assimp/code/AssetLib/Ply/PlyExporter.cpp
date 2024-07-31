@@ -46,7 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "PlyExporter.h"
 #include <memory>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <assimp/Exceptional.h>
 #include <assimp/scene.h>
 #include <assimp/version.h>
@@ -261,7 +261,7 @@ void PlyExporter::WriteMeshVerts(const aiMesh* m, unsigned int components)
             m->mVertices[i].z
         ;
         if(components & PLY_EXPORT_HAS_NORMALS) {
-            if (m->HasNormals() && is_not_qnan(m->mNormals[i].x) && std::fabs(m->mNormals[i].x) != inf) {
+            if (m->HasNormals() && is_not_qnan(m->mNormals[i].x) && assimp_math::fabs(m->mNormals[i].x) != inf) {
                 mOutput <<
                     " " << m->mNormals[i].x <<
                     " " << m->mNormals[i].y <<

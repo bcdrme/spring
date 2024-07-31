@@ -15,7 +15,7 @@
 #include "draco/compression/point_cloud/algorithms/float_points_tree_encoder.h"
 
 #include <algorithm>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 
 #include "draco/compression/point_cloud/algorithms/dynamic_integer_points_kd_tree_encoder.h"
 #include "draco/core/math_utils.h"

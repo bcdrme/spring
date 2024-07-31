@@ -200,7 +200,7 @@ void SetAccessorRange(Ref<Accessor> acc, void *data, size_t count,
             // Gracefully tolerate rogue NaN's in buffer data
             // Any NaNs/Infs introduced in accessor bounds will end up in
             // document and prevent rapidjson from writing out valid JSON
-            if (!std::isfinite(valueTmp)) {
+            if (!assimp_math::isfinite(valueTmp)) {
                 continue;
             }
 
@@ -862,7 +862,7 @@ void glTF2Exporter::ExportMaterials() {
                 // convert specular color to luminance
                 float specularIntensity = specularColor[0] * 0.2125f + specularColor[1] * 0.7154f + specularColor[2] * 0.0721f;
                 // normalize shininess (assuming max is 1000) with an inverse exponentional curve
-                float normalizedShininess = std::sqrt(shininess / 1000);
+                float normalizedShininess = assimp_math::sqrt(shininess / 1000);
 
                 // clamp the shininess value between 0 and 1
                 normalizedShininess = std::min(std::max(normalizedShininess, 0.0f), 1.0f);
@@ -1078,7 +1078,7 @@ void ExportSkin(Asset &mAsset, const aiMesh *aimesh, Ref<Mesh> &meshRef, Ref<Buf
     vec4 *vertexWeightData = new vec4[NumVerts * numGroups];
     for (size_t indexVertex = 0; indexVertex < NumVerts; ++indexVertex) {
         // order pairs by weight for each vertex
-        std::sort(allVerticesPairs[indexVertex].begin(),
+        std::stable_sort(allVerticesPairs[indexVertex].begin(),
                 allVerticesPairs[indexVertex].end(),
                 boneIndexWeightPair());
         for (size_t indexGroup = 0; indexGroup < numGroups; ++indexGroup) {

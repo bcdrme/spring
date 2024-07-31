@@ -49,7 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifdef __cplusplus
 #include <assimp/vector3.h>
 
-#include <cmath>
+#include <streflop/streflop_cond.h>
 
 // ------------------------------------------------------------------------------------------------
 /** Transformation of a vector by a 3x3 matrix */
@@ -93,7 +93,7 @@ AI_FORCE_INLINE TReal aiVector3t<TReal>::SquareLength() const {
 // ------------------------------------------------------------------------------------------------
 template <typename TReal>
 AI_FORCE_INLINE TReal aiVector3t<TReal>::Length() const {
-    return std::sqrt( SquareLength());
+    return assimp_math::sqrt( SquareLength());
 }
 // ------------------------------------------------------------------------------------------------
 template <typename TReal>

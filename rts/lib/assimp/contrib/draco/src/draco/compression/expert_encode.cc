@@ -268,8 +268,8 @@ Status ExpertEncoder::ApplyGridQuantization(const Mesh &mesh,
   int num_values = 0;  // Number of values that we need to encode.
   for (int c = 0; c < 3; ++c) {
     // Min / max position on grid vertices in grid coordinates.
-    const float min_grid_pos = floor(bbox.GetMinPoint()[c] / spacing);
-    const float max_grid_pos = ceil(bbox.GetMaxPoint()[c] / spacing);
+    const float min_grid_pos = assimp_math::floor(bbox.GetMinPoint()[c] / spacing);
+    const float max_grid_pos = assimp_math::ceil(bbox.GetMaxPoint()[c] / spacing);
 
     // Min pos on grid vertex in mesh coordinates.
     min_pos[c] = min_grid_pos * spacing;

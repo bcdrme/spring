@@ -15,7 +15,7 @@
 #ifndef DRACO_COMPRESSION_ATTRIBUTES_PREDICTION_SCHEMES_MESH_PREDICTION_SCHEME_TEX_COORDS_ENCODER_H_
 #define DRACO_COMPRESSION_ATTRIBUTES_PREDICTION_SCHEMES_MESH_PREDICTION_SCHEME_TEX_COORDS_ENCODER_H_
 
-#include <math.h>
+#include <streflop/streflop_cond.h>
 
 #include "draco/compression/attributes/prediction_schemes/mesh_prediction_scheme_encoder.h"
 #include "draco/compression/bit_coders/rans_bit_encoder.h"
@@ -233,8 +233,8 @@ void MeshPredictionSchemeTexCoordsEncoder<DataTypeT, TransformT, MeshDataT>::
       s = pn.Dot(cn) / pn_norm2_squared;
       // To get the coordinate t, we can use formula:
       //      t = |C-N - (P-N) * s| / |P-N|
-      // Do not use std::sqrt to avoid changes in the bitstream.
-      t = sqrt((cn - pn * s).SquaredNorm() / pn_norm2_squared);
+      // Do not use assimp_math::sqrt to avoid changes in the bitstream.
+      t = assimp_math::sqrt((cn - pn * s).SquaredNorm() / pn_norm2_squared);
     } else {
       s = 0;
       t = 0;
@@ -276,8 +276,8 @@ void MeshPredictionSchemeTexCoordsEncoder<DataTypeT, TransformT, MeshDataT>::
     }
     if (std::is_integral<DataTypeT>::value) {
       // Round the predicted value for integer types.
-      predicted_value_[0] = static_cast<int>(floor(predicted_uv[0] + 0.5));
-      predicted_value_[1] = static_cast<int>(floor(predicted_uv[1] + 0.5));
+      predicted_value_[0] = static_cast<int>(assimp_math::floor(predicted_uv[0] + 0.5));
+      predicted_value_[1] = static_cast<int>(assimp_math::floor(predicted_uv[1] + 0.5));
     } else {
       predicted_value_[0] = static_cast<int>(predicted_uv[0]);
       predicted_value_[1] = static_cast<int>(predicted_uv[1]);

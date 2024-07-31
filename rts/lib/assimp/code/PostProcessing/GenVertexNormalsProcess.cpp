@@ -202,7 +202,7 @@ bool GenVertexNormalsProcess::GenMeshVertexNormals(aiMesh *pMesh, unsigned int m
     // Slower code path if a smooth angle is set. There are many ways to achieve
     // the effect, this one is the most straightforward one.
     else {
-        const ai_real fLimit = std::cos(configMaxAngle);
+        const ai_real fLimit = assimp_math::cos(configMaxAngle);
         for (unsigned int i = 0; i < pMesh->mNumVertices; ++i) {
             // Get all vertices that share this one ...
             vertexFinder->FindPositions(pMesh->mVertices[i], posEpsilon, verticesFound);

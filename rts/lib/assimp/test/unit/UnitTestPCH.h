@@ -52,7 +52,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #  pragma warning(pop)
 #endif
 #include <memory>
-#include <math.h>
+#include <streflop/streflop_cond.h>
 #include "UTLogStream.h"
 
 #undef min

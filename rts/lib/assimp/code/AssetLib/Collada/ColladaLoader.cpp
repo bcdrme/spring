@@ -360,7 +360,7 @@ void ColladaLoader::BuildLightsForNode(const ColladaParser &pParser, const Node 
                     if ( 0.0f != srcLight->mFalloffExponent ) {
                         f = 1.f / srcLight->mFalloffExponent;
                     }
-                    out->mAngleOuterCone = std::acos(std::pow(0.1f, f)) +
+                    out->mAngleOuterCone = assimp_math::acos(assimp_math::pow(0.1f, f)) +
                                            out->mAngleInnerCone;
                 } else {
                     out->mAngleOuterCone = out->mAngleInnerCone + AI_DEG_TO_RAD(srcLight->mPenumbraAngle);
@@ -415,13 +415,13 @@ void ColladaLoader::BuildCamerasForNode(const ColladaParser &pParser, const Node
             out->mHorizontalFOV = srcCamera->mHorFov;
 
             if (srcCamera->mVerFov != 10e10f && srcCamera->mAspect == 10e10f) {
-                out->mAspect = std::tan(AI_DEG_TO_RAD(srcCamera->mHorFov)) /
-                               std::tan(AI_DEG_TO_RAD(srcCamera->mVerFov));
+                out->mAspect = assimp_math::tan(AI_DEG_TO_RAD(srcCamera->mHorFov)) /
+                               assimp_math::tan(AI_DEG_TO_RAD(srcCamera->mVerFov));
             }
 
         } else if (srcCamera->mAspect != 10e10f && srcCamera->mVerFov != 10e10f) {
-            out->mHorizontalFOV = 2.0f * AI_RAD_TO_DEG(std::atan(srcCamera->mAspect *
-                                                                 std::tan(AI_DEG_TO_RAD(srcCamera->mVerFov) * 0.5f)));
+            out->mHorizontalFOV = 2.0f * AI_RAD_TO_DEG(assimp_math::atan(srcCamera->mAspect *
+                                                                 assimp_math::tan(AI_DEG_TO_RAD(srcCamera->mVerFov) * 0.5f)));
         }
 
         // Collada uses degrees, we use radians
@@ -1329,7 +1329,7 @@ void ColladaLoader::CreateAnimation(aiScene *pScene, const ColladaParser &pParse
                         const ai_real last_eval_angle = last_key_angle + (cur_key_angle - last_key_angle) * (time - last_key_time) / (cur_key_time - last_key_time);
                         const ai_real delta = std::abs(cur_key_angle - last_eval_angle);
                         if (delta >= 180.0) {
-                            const int subSampleCount = static_cast<int>(std::floor(delta / 90.0));
+                            const int subSampleCount = static_cast<int>(assimp_math::floor(delta / 90.0));
                             if (cur_key_time != time) {
                                 const ai_real nextSampleTime = time + (cur_key_time - time) / subSampleCount;
                                 nextTime = std::min(nextTime, nextSampleTime);

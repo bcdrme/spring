@@ -51,10 +51,10 @@ class PointCloudKdTreeEncodingTest : public ::testing::Test {
       // point clouds because the order of points may actually change because
       // of the quantization. The test should be make more robust to handle such
       // case.
-      std::sort(points_0.begin(), points_0.end());
-      std::sort(points_1.begin(), points_1.end());
+      std::stable_sort(points_0.begin(), points_0.end());
+      std::stable_sort(points_1.begin(), points_1.end());
       for (uint32_t i = 0; i < points_0.size(); ++i) {
-        ASSERT_LE(std::fabs(points_0[i] - points_1[i]), 1e-2);
+        ASSERT_LE(assimp_math::fabs(points_0[i] - points_1[i]), 1e-2);
       }
     }
   }

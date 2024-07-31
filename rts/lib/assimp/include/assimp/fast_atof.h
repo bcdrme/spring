@@ -21,7 +21,7 @@
 #   pragma GCC system_header
 #endif
 
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <limits>
 #include <stdint.h>
 #include <assimp/defs.h>
@@ -41,23 +41,23 @@ namespace Assimp {
 
 static constexpr size_t NumItems = 16;
 
-constexpr double fast_atof_table[NumItems] =  {  // we write [16] here instead of [] to work around a swig bug
-    0.0,
-    0.1,
-    0.01,
-    0.001,
-    0.0001,
-    0.00001,
-    0.000001,
-    0.0000001,
-    0.00000001,
-    0.000000001,
-    0.0000000001,
-    0.00000000001,
-    0.000000000001,
-    0.0000000000001,
-    0.00000000000001,
-    0.000000000000001
+constexpr float fast_atof_table[NumItems] =  {  // we write [16] here instead of [] to work around a swig bug
+    0.0f,
+    0.1f,
+    0.01f,
+    0.001f,
+    0.0001f,
+    0.00001f,
+    0.000001f,
+    0.0000001f,
+    0.00000001f,
+    0.000000001f,
+    0.0000000001f,
+    0.00000000001f,
+    0.000000000001f,
+    0.0000000000001f,
+    0.00000000000001f,
+    0.000000000000001f
 };
 
 // ------------------------------------------------------------------------------------
@@ -336,7 +336,7 @@ inline const char* fast_atoreal_move(const char* c, Real& out, bool check_comma 
         if (einv) {
             exp = -exp;
         }
-        f *= std::pow(static_cast<Real>(10.0), exp);
+        f *= assimp_math::pow(static_cast<Real>(10.0), exp);
     }
 
     if (inv) {

@@ -1,0 +1,3 @@
+Assimp vanilla version tag: v5.4.2
+Assimp vanilla  commit  id: ddb74c2bbdee1565dda667e85f0c82a0588c8053
+Modified after runnning ../../../tools/scripts/fix_assimp.sh

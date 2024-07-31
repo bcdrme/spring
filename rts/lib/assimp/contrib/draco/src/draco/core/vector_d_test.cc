@@ -82,8 +82,8 @@ TEST(VectorDTest, TestOperators) {
   Vector3f new_v = v;
   new_v.Normalize();
   const float tolerance = 1e-5;
-  const float magnitude = std::sqrt(v.SquaredNorm());
-  const float new_magnitude = std::sqrt(new_v.SquaredNorm());
+  const float magnitude = assimp_math::sqrt(v.SquaredNorm());
+  const float new_magnitude = assimp_math::sqrt(new_v.SquaredNorm());
   ASSERT_NEAR(new_magnitude, 1, tolerance);
   for (int i = 0; i < 3; ++i) {
     new_v[i] *= magnitude;
@@ -145,7 +145,7 @@ TEST(VectorDTest, TestMultiplicationAssignmentOperator) {
 TEST(VectorTest, TestGetNormalized) {
   const Vector3f original(2, 3, -4);
   const Vector3f normalized = original.GetNormalized();
-  const float magnitude = sqrt(original.SquaredNorm());
+  const float magnitude = assimp_math::sqrt(original.SquaredNorm());
   const float tolerance = 1e-5f;
   ASSERT_NEAR(normalized[0], original[0] / magnitude, tolerance);
   ASSERT_NEAR(normalized[1], original[1] / magnitude, tolerance);

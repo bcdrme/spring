@@ -39,7 +39,7 @@
 *******************************************************************************/
 
 #include "clipper.hpp"
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <vector>
 #include <algorithm>
 #include <stdexcept>
@@ -660,7 +660,7 @@ void IntersectPoint(TEdge &Edge1, TEdge &Edge2, IntPoint &ip)
     b2 = Edge2.Bot.X - Edge2.Bot.Y * Edge2.Dx;
     double q = (b2-b1) / (Edge1.Dx - Edge2.Dx);
     ip.Y = Round(q);
-    if (std::fabs(Edge1.Dx) < std::fabs(Edge2.Dx))
+    if (assimp_math::fabs(Edge1.Dx) < assimp_math::fabs(Edge2.Dx))
       ip.X = Round(Edge1.Dx * q + b1);
     else 
       ip.X = Round(Edge2.Dx * q + b2);
@@ -672,7 +672,7 @@ void IntersectPoint(TEdge &Edge1, TEdge &Edge2, IntPoint &ip)
       ip.Y = Edge1.Top.Y;
     else
       ip.Y = Edge2.Top.Y;
-    if (std::fabs(Edge1.Dx) < std::fabs(Edge2.Dx))
+    if (assimp_math::fabs(Edge1.Dx) < assimp_math::fabs(Edge2.Dx))
       ip.X = TopX(Edge1, ip.Y);
     else
       ip.X = TopX(Edge2, ip.Y);
@@ -682,7 +682,7 @@ void IntersectPoint(TEdge &Edge1, TEdge &Edge2, IntPoint &ip)
   {
     ip.Y = Edge1.Curr.Y;
     //use the more vertical edge to derive X ...
-    if (std::fabs(Edge1.Dx) > std::fabs(Edge2.Dx))
+    if (assimp_math::fabs(Edge1.Dx) > assimp_math::fabs(Edge2.Dx))
       ip.X = TopX(Edge2, ip.Y); else
       ip.X = TopX(Edge1, ip.Y);
   }
@@ -800,17 +800,17 @@ bool FirstIsBottomPt(const OutPt* btmPt1, const OutPt* btmPt2)
 {
   OutPt *p = btmPt1->Prev;
   while ((p->Pt == btmPt1->Pt) && (p != btmPt1)) p = p->Prev;
-  double dx1p = std::fabs(GetDx(btmPt1->Pt, p->Pt));
+  double dx1p = assimp_math::fabs(GetDx(btmPt1->Pt, p->Pt));
   p = btmPt1->Next;
   while ((p->Pt == btmPt1->Pt) && (p != btmPt1)) p = p->Next;
-  double dx1n = std::fabs(GetDx(btmPt1->Pt, p->Pt));
+  double dx1n = assimp_math::fabs(GetDx(btmPt1->Pt, p->Pt));
 
   p = btmPt2->Prev;
   while ((p->Pt == btmPt2->Pt) && (p != btmPt2)) p = p->Prev;
-  double dx2p = std::fabs(GetDx(btmPt2->Pt, p->Pt));
+  double dx2p = assimp_math::fabs(GetDx(btmPt2->Pt, p->Pt));
   p = btmPt2->Next;
   while ((p->Pt == btmPt2->Pt) && (p != btmPt2)) p = p->Next;
-  double dx2n = std::fabs(GetDx(btmPt2->Pt, p->Pt));
+  double dx2n = assimp_math::fabs(GetDx(btmPt2->Pt, p->Pt));
 
   if (std::max(dx1p, dx1n) == std::max(dx2p, dx2n) &&
     std::min(dx1p, dx1n) == std::min(dx2p, dx2n))
@@ -1249,7 +1249,7 @@ void ClipperBase::Reset()
 {
   m_CurrentLM = m_MinimaList.begin();
   if (m_CurrentLM == m_MinimaList.end()) return; //ie nothing to process
-  std::sort(m_MinimaList.begin(), m_MinimaList.end(), LocMinSorter());
+  std::stable_sort(m_MinimaList.begin(), m_MinimaList.end(), LocMinSorter());
 
   m_Scanbeam = ScanbeamList(); //clears/resets priority_queue
   //reset all edges ...
@@ -2938,7 +2938,7 @@ bool Clipper::FixupIntersectionOrder()
   //Now it's crucial that intersections are made only between adjacent edges,
   //so to ensure this the order of intersections may need adjusting ...
   CopyAELToSEL();
-  std::sort(m_IntersectList.begin(), m_IntersectList.end(), IntersectListSort);
+  std::stable_sort(m_IntersectList.begin(), m_IntersectList.end(), IntersectListSort);
   size_t cnt = m_IntersectList.size();
   for (size_t i = 0; i < cnt; ++i) 
   {
@@ -3774,7 +3774,7 @@ DoublePoint GetUnitNormal(const IntPoint &pt1, const IntPoint &pt2)
 
   double Dx = (double)(pt2.X - pt1.X);
   double dy = (double)(pt2.Y - pt1.Y);
-  double f = 1 *1.0/ std::sqrt( Dx*Dx + dy*dy );
+  double f = 1 *1.0/ assimp_math::sqrt( Dx*Dx + dy*dy );
   Dx *= f;
   dy *= f;
   return DoublePoint(dy, -Dx);
@@ -3980,15 +3980,15 @@ void ClipperOffset::DoOffset(double delta)
 
   double y;
   if (ArcTolerance <= 0.0) y = def_arc_tolerance;
-  else if (ArcTolerance > std::fabs(delta) * def_arc_tolerance) 
-    y = std::fabs(delta) * def_arc_tolerance;
+  else if (ArcTolerance > assimp_math::fabs(delta) * def_arc_tolerance) 
+    y = assimp_math::fabs(delta) * def_arc_tolerance;
   else y = ArcTolerance;
   //see offset_triginometry2.svg in the documentation folder ...
-  double steps = pi / std::acos(1 - y / std::fabs(delta));
-  if (steps > std::fabs(delta) * pi) 
-    steps = std::fabs(delta) * pi;  //ie excessive precision check
-  m_sin = std::sin(two_pi / steps);
-  m_cos = std::cos(two_pi / steps);
+  double steps = pi / assimp_math::acos(1 - y / assimp_math::fabs(delta));
+  if (steps > assimp_math::fabs(delta) * pi) 
+    steps = assimp_math::fabs(delta) * pi;  //ie excessive precision check
+  m_sin = assimp_math::sin(two_pi / steps);
+  m_cos = assimp_math::cos(two_pi / steps);
   m_StepsPerRad = steps / two_pi;
   if (delta < 0.0) m_sin = -m_sin;
 
@@ -4133,7 +4133,7 @@ void ClipperOffset::OffsetPoint(int j, int& k, JoinType jointype)
 {
   //cross product ...
   m_sinA = (m_normals[k].X * m_normals[j].Y - m_normals[j].X * m_normals[k].Y);
-  if (std::fabs(m_sinA * m_delta) < 1.0) 
+  if (assimp_math::fabs(m_sinA * m_delta) < 1.0) 
   {
     //dot product ...
     double cosA = (m_normals[k].X * m_normals[j].X + m_normals[j].Y * m_normals[k].Y ); 
@@ -4175,7 +4175,7 @@ void ClipperOffset::OffsetPoint(int j, int& k, JoinType jointype)
 
 void ClipperOffset::DoSquare(int j, int k)
 {
-  double dx = std::tan(std::atan2(m_sinA,
+  double dx = assimp_math::tan(assimp_math::atan2(m_sinA,
       m_normals[k].X * m_normals[j].X + m_normals[k].Y * m_normals[j].Y) / 4);
   m_destPoly.push_back(IntPoint(
       Round(m_srcPoly[j].X + m_delta * (m_normals[k].X - m_normals[k].Y * dx)),
@@ -4196,9 +4196,9 @@ void ClipperOffset::DoMiter(int j, int k, double r)
 
 void ClipperOffset::DoRound(int j, int k)
 {
-  double a = std::atan2(m_sinA,
+  double a = assimp_math::atan2(m_sinA,
   m_normals[k].X * m_normals[j].X + m_normals[k].Y * m_normals[j].Y);
-  int steps = std::max((int)Round(m_StepsPerRad * std::fabs(a)), 1);
+  int steps = std::max((int)Round(m_StepsPerRad * assimp_math::fabs(a)), 1);
 
   double X = m_normals[k].X, Y = m_normals[k].Y, X2;
   for (int i = 0; i < steps; ++i)
@@ -4391,7 +4391,7 @@ OutPt* ExcludeOp(OutPt* op)
 void CleanPolygon(const Path& in_poly, Path& out_poly, double distance)
 {
   //distance = proximity in units/pixels below which vertices
-  //will be stripped. Default ~= sqrt(2).
+  //will be stripped. Default ~= assimp_math::sqrt(2).
   
   size_t size = in_poly.size();
   

@@ -48,7 +48,7 @@ void CompareRotatedNormals(const draco::Mesh &mesh_0, const draco::Mesh &mesh_1,
     norm_0.normalize();
     norm_1.normalize();
     const float norm_angle =
-        std::atan2(norm_0.cross(norm_1).norm(), norm_0.dot(norm_1));
+        assimp_math::atan2(norm_0.cross(norm_1).norm(), norm_0.dot(norm_1));
     ASSERT_NEAR(std::abs(norm_angle), angle, 1e-6f);
   }
 }

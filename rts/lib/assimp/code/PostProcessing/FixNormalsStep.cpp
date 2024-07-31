@@ -140,12 +140,12 @@ bool FixInfacingNormalsProcess::ProcessMesh( aiMesh* pcMesh, unsigned int index)
     // Check whether this is a planar surface
     const float fDelta1_yz = fDelta1_y * fDelta1_z;
 
-    if (fDelta1_x < 0.05f * std::sqrt( fDelta1_yz ))return false;
-    if (fDelta1_y < 0.05f * std::sqrt( fDelta1_z * fDelta1_x ))return false;
-    if (fDelta1_z < 0.05f * std::sqrt( fDelta1_y * fDelta1_x ))return false;
+    if (fDelta1_x < 0.05f * assimp_math::sqrt( fDelta1_yz ))return false;
+    if (fDelta1_y < 0.05f * assimp_math::sqrt( fDelta1_z * fDelta1_x ))return false;
+    if (fDelta1_z < 0.05f * assimp_math::sqrt( fDelta1_y * fDelta1_x ))return false;
 
     // now compare the volumes of the bounding boxes
-    if (std::fabs(fDelta0_x * fDelta0_y * fDelta0_z) < std::fabs(fDelta1_x * fDelta1_yz)) {
+    if (assimp_math::fabs(fDelta0_x * fDelta0_y * fDelta0_z) < assimp_math::fabs(fDelta1_x * fDelta1_yz)) {
         if (!DefaultLogger::isNullLogger()) {
             ASSIMP_LOG_INFO("Mesh ", index, ": Normals are facing inwards (or the mesh is planar)", index);
         }

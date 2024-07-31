@@ -172,9 +172,9 @@ TEST(utBlenderImporter, importSuzanneSubdiv_252) {
     }
 
     // must not be inf or nan
-    ASSERT_TRUE(std::isfinite(vertexAvg.x));
-    ASSERT_TRUE(std::isfinite(vertexAvg.y));
-    ASSERT_TRUE(std::isfinite(vertexAvg.z));
+    ASSERT_TRUE(assimp_math::isfinite(vertexAvg.x));
+    ASSERT_TRUE(assimp_math::isfinite(vertexAvg.y));
+    ASSERT_TRUE(assimp_math::isfinite(vertexAvg.z));
     EXPECT_NEAR(vertexAvg.x, 6.4022515289252624e-08, 0.0001);
     EXPECT_NEAR(vertexAvg.y, 0.060569953173398972, 0.0001);
     EXPECT_NEAR(vertexAvg.z, 0.31429031491279602, 0.0001);

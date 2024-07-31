@@ -101,7 +101,7 @@ void SkeletonMeshBuilder::CreateGeometry(const aiNode *pNode) {
             }
             aiVector3D up = aiVector3D(childpos).Normalize();
             aiVector3D orth(1.0, 0.0, 0.0);
-            if (std::fabs(orth * up) > 0.99) {
+            if (assimp_math::fabs(orth * up) > 0.99) {
                 orth.Set(0.0, 1.0, 0.0);
             }
 

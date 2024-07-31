@@ -20,7 +20,7 @@
 #include "stringbuffer.h"
 #include "error/en.h"
 #include "uri.h"
-#include <cmath> // abs, floor
+#include <streflop/streflop_cond.h> // abs, floor
 
 #if !defined(RAPIDJSON_SCHEMA_USE_INTERNALREGEX)
 #define RAPIDJSON_SCHEMA_USE_INTERNALREGEX 1
@@ -1642,7 +1642,7 @@ private:
     bool CheckDoubleMultipleOf(Context& context, double d) const {
         double a = std::abs(d), b = std::abs(multipleOf_.GetDouble());
         double q = a / b;
-        double qRounded = std::floor(q + 0.5);
+        double qRounded = assimp_math::floor(q + 0.5);
         double scaledEpsilon = (q + qRounded) * std::numeric_limits<double>::epsilon();
         double difference = std::abs(qRounded - q);
         bool isMultiple = (difference <= scaledEpsilon)

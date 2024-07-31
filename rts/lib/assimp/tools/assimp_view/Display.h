@@ -343,7 +343,7 @@ namespace AssimpView
         // change the texture view's zoom factor
         inline void SetTextureViewZoom( float f )
         {
-            // FIX: Removed log(), seems to make more problems than it fixes
+            // FIX: Removed assimp_math::log(), seems to make more problems than it fixes
             this->m_fTextureZoom += f * 15;
             if( this->m_fTextureZoom < 0.05f )this->m_fTextureZoom = 0.05f;
         }

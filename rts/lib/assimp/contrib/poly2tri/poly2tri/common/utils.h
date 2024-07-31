@@ -36,7 +36,7 @@
 #define _USE_MATH_DEFINES
 
 #include <exception>
-#include <math.h>
+#include <streflop/streflop_cond.h>
 
 // C99 removes M_PI from math.h
 #ifndef M_PI

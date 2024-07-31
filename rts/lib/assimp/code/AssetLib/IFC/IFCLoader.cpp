@@ -539,7 +539,7 @@ void ProcessProductRepresentation(const Schema_2x3::IfcProduct &el, aiNode *nd, 
     const STEP::ListOf<STEP::Lazy<Schema_2x3::IfcRepresentation>, 1, 0> &src = el.Representation.Get()->Representations;
     std::vector<const Schema_2x3::IfcRepresentation *> repr_ordered(src.size());
     std::copy(src.begin(), src.end(), repr_ordered.begin());
-    std::sort(repr_ordered.begin(), repr_ordered.end(), RateRepresentationPredicate());
+    std::stable_sort(repr_ordered.begin(), repr_ordered.end(), RateRepresentationPredicate());
     for (const Schema_2x3::IfcRepresentation *repr : repr_ordered) {
         bool res = false;
         for (const Schema_2x3::IfcRepresentationItem &item : repr->Items) {

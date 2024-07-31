@@ -256,7 +256,7 @@
 #define GOOGLEMOCK_INCLUDE_GMOCK_GMOCK_MATCHERS_H_
 
 #include <algorithm>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <exception>
 #include <functional>
 #include <initializer_list>
@@ -2537,7 +2537,7 @@ class WhenSortedByMatcher {
       LhsStlContainerReference lhs_stl_container = LhsView::ConstReference(lhs);
       ::std::vector<LhsValue> sorted_container(lhs_stl_container.begin(),
                                                lhs_stl_container.end());
-      ::std::sort(sorted_container.begin(), sorted_container.end(),
+      ::std::stable_sort(sorted_container.begin(), sorted_container.end(),
                   comparator_);
 
       if (!listener->IsInterested()) {

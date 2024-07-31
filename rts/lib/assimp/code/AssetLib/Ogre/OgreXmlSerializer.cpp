@@ -743,7 +743,7 @@ void OgreXmlSerializer::ReadBones(XmlNode &node, Skeleton *skeleton) {
     }
 
     // Order bones by Id
-    std::sort(skeleton->bones.begin(), skeleton->bones.end(), BoneCompare);
+    std::stable_sort(skeleton->bones.begin(), skeleton->bones.end(), BoneCompare);
 
     // Validate that bone indexes are not skipped.
     /** @note Left this from original authors code, but not sure if this is strictly necessary

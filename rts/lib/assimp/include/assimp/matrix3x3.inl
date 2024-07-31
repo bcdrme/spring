@@ -55,7 +55,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <assimp/matrix4x4.h>
 
 #include <algorithm>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <limits>
 
 // ------------------------------------------------------------------------------------------------
@@ -225,8 +225,8 @@ aiMatrix3x3t<TReal>& aiMatrix3x3t<TReal>::Inverse() {
 template <typename TReal>
 AI_FORCE_INLINE
 aiMatrix3x3t<TReal>& aiMatrix3x3t<TReal>::RotationZ(TReal a, aiMatrix3x3t<TReal>& out) {
-    out.a1 = out.b2 = std::cos(a);
-    out.b1 = std::sin(a);
+    out.a1 = out.b2 = assimp_math::cos(a);
+    out.b1 = assimp_math::sin(a);
     out.a2 = - out.b1;
 
     out.a3 = out.b3 = out.c1 = out.c2 = 0.f;
@@ -240,7 +240,7 @@ aiMatrix3x3t<TReal>& aiMatrix3x3t<TReal>::RotationZ(TReal a, aiMatrix3x3t<TReal>
 template <typename TReal>
 AI_FORCE_INLINE
 aiMatrix3x3t<TReal>& aiMatrix3x3t<TReal>::Rotation( TReal a, const aiVector3t<TReal>& axis, aiMatrix3x3t<TReal>& out) {
-  TReal c = std::cos( a), s = std::sin( a), t = 1 - c;
+  TReal c = assimp_math::cos( a), s = assimp_math::sin( a), t = 1 - c;
   TReal x = axis.x, y = axis.y, z = axis.z;
 
   // Many thanks to MathWorld and Wikipedia

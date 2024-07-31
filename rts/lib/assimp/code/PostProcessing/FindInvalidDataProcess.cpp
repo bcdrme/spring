@@ -217,7 +217,7 @@ AI_FORCE_INLINE bool EpsilonCompare(const T &n, const T &s, ai_real epsilon);
 
 // ------------------------------------------------------------------------------------------------
 AI_FORCE_INLINE bool EpsilonCompare(ai_real n, ai_real s, ai_real epsilon) {
-    return std::fabs(n - s) > epsilon;
+    return assimp_math::fabs(n - s) > epsilon;
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -244,7 +244,7 @@ inline bool AllIdentical(T *in, unsigned int num, ai_real epsilon) {
         return true;
     }
 
-    if (fabs(epsilon) > 0.f) {
+    if (assimp_math::fabs(epsilon) > 0.f) {
         for (unsigned int i = 0; i < num - 1; ++i) {
             if (!EpsilonCompare(in[i], in[i + 1], epsilon)) {
                 return false;

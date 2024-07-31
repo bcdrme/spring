@@ -147,7 +147,7 @@ void X3DImporter::readArcClose2D(XmlNode &node) {
         // create point list of geometry object.
         X3DGeoHelper::make_arc2D(startAngle, endAngle, radius, 10, ((X3DNodeElementGeometry2D *)ne)->Vertices); ///TODO: IME - AI_CONFIG for NumSeg
         // add chord or two radiuses only if not a circle was defined
-        if (!((std::fabs(endAngle - startAngle) >= AI_MATH_TWO_PI_F) || (endAngle == startAngle))) {
+        if (!((assimp_math::fabs(endAngle - startAngle) >= AI_MATH_TWO_PI_F) || (endAngle == startAngle))) {
             std::list<aiVector3D> &vlist = ((X3DNodeElementGeometry2D *)ne)->Vertices; // just short alias.
 
             if ((closureType == "PIE") || (closureType == "\"PIE\""))

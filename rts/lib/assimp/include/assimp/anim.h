@@ -95,7 +95,7 @@ struct aiVectorKey {
         return rhs.mValue != this->mValue;
     }
 
-    // Relational operators. For use with std::sort();
+    // Relational operators. For use with std::stable_sort();
     bool operator<(const aiVectorKey &rhs) const {
         return mTime < rhs.mTime;
     }
@@ -138,7 +138,7 @@ struct aiQuatKey {
         return rhs.mValue != this->mValue;
     }
 
-    // Relational operators. For use with std::sort();
+    // Relational operators. For use with std::stable_sort();
     bool operator<(const aiQuatKey &rhs) const {
         return mTime < rhs.mTime;
     }
@@ -182,7 +182,7 @@ struct aiMeshKey {
         return o.mValue != this->mValue;
     }
 
-    // Relational operators. For use with std::sort();
+    // Relational operators. For use with std::stable_sort();
     bool operator<(const aiMeshKey &o) const {
         return mTime < o.mTime;
     }

@@ -7,14 +7,14 @@ if [ ! -d code ]; then
 fi
 
 replace_func () {
-	sed -i "s/\([^:a-zA-Z0-9_]\|^\)std::\(fabs\|sin\|cos\|cos\|sinh\|cosh\|tan\|tanh\|asin\|acos\|atan\|atan2\|ceil\|floor\|fmod\|hypot\|pow\|log\|log10\|exp\|frexp\|ldexp\|isnan\|isinf\|isfinite\|sqrt\|isqrt\)\(f\|l\)\?\b/\1math::\2/g" $file
-	sed -i "s/\([^:a-zA-Z0-9_]\|^\)\(fabs\|sin\|cos\|cos\|sinh\|cosh\|tan\|tanh\|asin\|acos\|atan\|atan2\|ceil\|floor\|fmod\|hypot\|pow\|log\|log10\|exp\|frexp\|ldexp\|isnan\|isinf\|isfinite\|sqrt\|isqrt\)\(f\|l\)\? *(/\1math::\2(/g" $file
+	sed -i 's/\([^:a-zA-Z0-9_]\|^\)std::\(fabs\|sin\|cos\|cos\|sinh\|cosh\|tan\|tanh\|asin\|acos\|atan\|atan2\|ceil\|floor\|fmod\|hypot\|pow\|log\|log10\|exp\|frexp\|ldexp\|isnan\|isinf\|isfinite\|sqrt\|isqrt\)\(f\|l\)\?\b/\1assimp_math::\2/g' $file
+	sed -i 's/\([^:a-zA-Z0-9_]\|^\)\(fabs\|sin\|cos\|cos\|sinh\|cosh\|tan\|tanh\|asin\|acos\|atan\|atan2\|ceil\|floor\|fmod\|hypot\|pow\|log\|log10\|exp\|frexp\|ldexp\|isnan\|isinf\|isfinite\|sqrt\|isqrt\)\(f\|l\)\? *(/\1assimp_math::\2(/g' $file
 }
 
 replace_math () {
-	sed -i 's/<cmath>/"lib\/streflop\/streflop_cond.h"/g' $file
-	sed -i 's/<math.h>/"lib\/streflop\/streflop_cond.h"/g' $file
-	sed -i 's/"math.h"/"lib\/streflop\/streflop_cond.h"/g' $file
+	sed -i 's/<cmath>/<streflop\/streflop_cond.h>/g' $file
+	sed -i 's/<math.h>/<streflop\/streflop_cond.h>/g' $file
+	sed -i 's/"math.h"/<streflop\/streflop_cond.h>/g' $file
 	sed -i 's/std::sort/std::stable_sort/g' $file
 	#sed -i 's/double/float/g' $file
 }
@@ -40,20 +40,20 @@ sed -i "s/ double fast_atof_table/ float fast_atof_table/g" $FA
 sed -i "s/0.0,/0.0f,/g" $FA
 sed -i "s/01/01f/g" $FA
 sed -i "s/0.1,/0.1f,/g" $FA
-echo Processed $FA
+echo Special processing of $FA
 
 FA=`find -iname "ScenePreprocessor.cpp"`
 sed -i "s/std::min(first, 0.);/std::min(first, static_cast<decltype(first)>(0));/g" $FA
-echo Processed $FA
+echo Special processing of $FA
 
 FA=`find -iname "SortByPTypeProcess.cpp"`
-sed -i "s/*math::tan(nullptr)/*tan(nullptr)/g" $FA
-echo Processed $FA
+sed -i "s/*assimp_math::tan(nullptr)/*tan(nullptr)/g" $FA
+echo Special processing of $FA
 
 
 FA=`find -iname "glTF2Asset.inl"`
 sed -i '/^\#include "AssetLib\/glTF\/glTFCommon\.h/i #include <math.h>' $FA
-echo Processed $FA
+echo Special processing of $FA
 
 #sed -i 's/double/float/g' code/PolyTools.h
 

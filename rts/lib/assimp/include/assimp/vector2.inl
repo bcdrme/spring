@@ -55,7 +55,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifdef __cplusplus
 #include <assimp/vector2.h>
 
-#include <cmath>
+#include <streflop/streflop_cond.h>
 
 // ------------------------------------------------------------------------------------------------
 template <typename TReal>
@@ -81,7 +81,7 @@ TReal aiVector2t<TReal>::SquareLength() const {
 template <typename TReal>
 inline
 TReal aiVector2t<TReal>::Length() const {
-    return std::sqrt( SquareLength());
+    return assimp_math::sqrt( SquareLength());
 }
 
 // ------------------------------------------------------------------------------------------------

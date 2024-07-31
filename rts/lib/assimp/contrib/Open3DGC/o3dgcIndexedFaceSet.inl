@@ -24,7 +24,7 @@ THE SOFTWARE.
 #ifndef O3DGC_INDEXED_FACE_SET_INL
 #define O3DGC_INDEXED_FACE_SET_INL
 
-#include <math.h>
+#include <streflop/streflop_cond.h>
 namespace o3dgc
 {
     template <class T>

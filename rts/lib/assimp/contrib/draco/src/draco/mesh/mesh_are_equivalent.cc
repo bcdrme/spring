@@ -65,7 +65,7 @@ void MeshAreEquivalent::InitOrderedFaceIndex() {
       mesh_infos_[i].ordered_index_of_face.push_back(j);
     }
     const FaceIndexLess less(mesh_infos_[i]);
-    std::sort(mesh_infos_[i].ordered_index_of_face.begin(),
+    std::stable_sort(mesh_infos_[i].ordered_index_of_face.begin(),
               mesh_infos_[i].ordered_index_of_face.end(), less);
 
     DRACO_DCHECK_EQ(mesh_infos_[i].ordered_index_of_face.size(), num_faces_);

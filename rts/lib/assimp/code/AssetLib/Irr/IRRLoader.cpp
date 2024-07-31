@@ -437,7 +437,7 @@ void IRRImporter::ComputeAnimations(Node *root, aiNode *real, std::vector<aiNode
                 key.mTime = i * tdelta;
 
                 const ai_real t = (ai_real)(in.speed * key.mTime);
-                key.mValue = in.circleCenter + in.circleRadius * ((vecU * std::cos(t)) + (vecV * std::sin(t)));
+                key.mValue = in.circleCenter + in.circleRadius * ((vecU * assimp_math::cos(t)) + (vecV * assimp_math::sin(t)));
             }
 
             // This animation is repeated and repeated ...
@@ -495,8 +495,8 @@ void IRRImporter::ComputeAnimations(Node *root, aiNode *real, std::vector<aiNode
                 aiVectorKey &key = anim->mPositionKeys[i];
 
                 const ai_real dt = (i * in.speed * ai_real(0.001));
-                const ai_real u = dt - std::floor(dt);
-                const int idx = (int)std::floor(dt) % size;
+                const ai_real u = dt - assimp_math::floor(dt);
+                const int idx = (int)assimp_math::floor(dt) % size;
 
                 // get the 4 current points to evaluate the spline
                 const aiVector3D &p0 = in.splineKeys[ClampSpline(idx - 1, size)].mValue;

@@ -180,8 +180,8 @@ static void SetMaterialTextureProperty(std::vector<int> &embeddedTexIdxs, Asset 
             // texture origin. All three can be corrected for solely by a change of the translation since
             // the transformations available are shape preserving. Note the importer already flips the V
             // coordinate of the actual meshes during import.
-            const ai_real rcos(cos(-transform.mRotation));
-            const ai_real rsin(sin(-transform.mRotation));
+            const ai_real rcos(assimp_math::cos(-transform.mRotation));
+            const ai_real rsin(assimp_math::sin(-transform.mRotation));
             transform.mTranslation.x = (static_cast<ai_real>(0.5) * transform.mScaling.x) * (-rcos + rsin + 1) + prop.TextureTransformExt_t.offset[0];
             transform.mTranslation.y = ((static_cast<ai_real>(0.5) * transform.mScaling.y) * (rsin + rcos - 1)) + 1 - transform.mScaling.y - prop.TextureTransformExt_t.offset[1];
 
@@ -908,7 +908,7 @@ void glTF2Importer::ImportCameras(glTF2::Asset &r) {
 
         if (cam.type == Camera::Perspective) {
             aicam->mAspect = cam.cameraProperties.perspective.aspectRatio;
-            aicam->mHorizontalFOV = 2.0f * std::atan(std::tan(cam.cameraProperties.perspective.yfov * 0.5f) * ((aicam->mAspect == 0.f) ? 1.f : aicam->mAspect));
+            aicam->mHorizontalFOV = 2.0f * assimp_math::atan(assimp_math::tan(cam.cameraProperties.perspective.yfov * 0.5f) * ((aicam->mAspect == 0.f) ? 1.f : aicam->mAspect));
             aicam->mClipPlaneFar = cam.cameraProperties.perspective.zfar;
             aicam->mClipPlaneNear = cam.cameraProperties.perspective.znear;
         } else {

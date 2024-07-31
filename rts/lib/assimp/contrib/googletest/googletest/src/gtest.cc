@@ -42,7 +42,7 @@
 
 #include <algorithm>
 #include <chrono>  // NOLINT
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
@@ -1638,11 +1638,11 @@ std::string GetBoolAssertionFailureMessage(
 AssertionResult DoubleNearPredFormat(const char* expr1, const char* expr2,
                                      const char* abs_error_expr, double val1,
                                      double val2, double abs_error) {
-  const double diff = fabs(val1 - val2);
+  const double diff = assimp_math::fabs(val1 - val2);
   if (diff <= abs_error) return AssertionSuccess();
 
   // Find the value which is closest to zero.
-  const double min_abs = std::min(fabs(val1), fabs(val2));
+  const double min_abs = std::min(assimp_math::fabs(val1), assimp_math::fabs(val2));
   // Find the distance to the next double from that value.
   const double epsilon =
       nextafter(min_abs, std::numeric_limits<double>::infinity()) - min_abs;
@@ -1652,7 +1652,7 @@ AssertionResult DoubleNearPredFormat(const char* expr1, const char* expr2,
   // requiring exotic floating-point knowledge.
   // Don't do an epsilon check if abs_error is zero because that implies
   // that an equality check was actually intended.
-  if (!(std::isnan)(val1) && !(std::isnan)(val2) && abs_error > 0 &&
+  if (!(assimp_math::isnan)(val1) && !(assimp_math::isnan)(val2) && abs_error > 0 &&
       abs_error < epsilon) {
     return AssertionFailure()
            << "The difference between " << expr1 << " and " << expr2 << " is "

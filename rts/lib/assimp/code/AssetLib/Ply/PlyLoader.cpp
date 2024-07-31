@@ -841,7 +841,7 @@ void PLYImporter::LoadMaterial(std::vector<aiMaterial *> *pvOut, std::string &de
             if (0xFFFFFFFF != iPhong) {
                 ai_real fSpec = PLY::PropertyInstance::ConvertTo<ai_real>(GetProperty((*i).alProperties, iPhong).avList.front(), ePhong);
 
-                // if shininess is 0 (and the pow() calculation would therefore always
+                // if shininess is 0 (and the assimp_math::pow() calculation would therefore always
                 // become 1, not depending on the angle), use gouraud lighting
                 if (fSpec) {
                     // scale this with 15 ... hopefully this is correct

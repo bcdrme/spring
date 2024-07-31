@@ -75,7 +75,7 @@ TEST_F(BlendImportAreaLight, testImportLight) {
         lightNames.emplace_back(pTest->mLights[i]->mName.C_Str(), i);
     }
 
-    std::sort(lightNames.begin(), lightNames.end());
+    std::stable_sort(lightNames.begin(), lightNames.end());
 
     std::vector<aiLight> lights;
 

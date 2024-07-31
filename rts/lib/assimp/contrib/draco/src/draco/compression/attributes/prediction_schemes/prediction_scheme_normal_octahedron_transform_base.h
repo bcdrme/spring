@@ -15,7 +15,7 @@
 #ifndef DRACO_COMPRESSION_ATTRIBUTES_PREDICTION_SCHEMES_PREDICTION_SCHEME_NORMAL_OCTAHEDRON_TRANSFORM_BASE_H_
 #define DRACO_COMPRESSION_ATTRIBUTES_PREDICTION_SCHEMES_PREDICTION_SCHEME_NORMAL_OCTAHEDRON_TRANSFORM_BASE_H_
 
-#include <cmath>
+#include <streflop/streflop_cond.h>
 
 #include "draco/compression/attributes/normal_compression_utils.h"
 #include "draco/compression/config/compression_shared.h"

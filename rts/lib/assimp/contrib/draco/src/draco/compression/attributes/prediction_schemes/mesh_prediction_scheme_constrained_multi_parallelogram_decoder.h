@@ -16,7 +16,7 @@
 #define DRACO_COMPRESSION_ATTRIBUTES_PREDICTION_SCHEMES_MESH_PREDICTION_SCHEME_CONSTRAINED_MULTI_PARALLELOGRAM_DECODER_H_
 
 #include <algorithm>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 
 #include "draco/compression/attributes/prediction_schemes/mesh_prediction_scheme_constrained_multi_parallelogram_shared.h"
 #include "draco/compression/attributes/prediction_schemes/mesh_prediction_scheme_decoder.h"

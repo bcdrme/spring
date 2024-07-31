@@ -299,7 +299,7 @@ double Sweep::Angle(const Point* origin, const Point* pa, const Point* pb) const
   /* Complex plane
    * ab = cosA +i*sinA
    * ab = (ax + ay*i)(bx + by*i) = (ax*bx + ay*by) + i(ax*by-ay*bx)
-   * atan2(y,x) computes the principal value of the argument function
+   * assimp_math::atan2(y,x) computes the principal value of the argument function
    * applied to the complex number x+iy
    * Where x = ax*bx + ay*by
    *       y = ax*by - ay*bx
@@ -312,14 +312,14 @@ double Sweep::Angle(const Point* origin, const Point* pa, const Point* pb) const
   const double by = pb->y - py;
   const double x = ax * by - ay * bx;
   const double y = ax * bx + ay * by;
-  return atan2(x, y);
+  return assimp_math::atan2(x, y);
 }
 
 double Sweep::BasinAngle(const Node& node) const
 {
   const double ax = node.point->x - node.next->next->point->x;
   const double ay = node.point->y - node.next->next->point->y;
-  return atan2(ay, ax);
+  return assimp_math::atan2(ay, ax);
 }
 
 double Sweep::HoleAngle(const Node& node) const
@@ -327,7 +327,7 @@ double Sweep::HoleAngle(const Node& node) const
   /* Complex plane
    * ab = cosA +i*sinA
    * ab = (ax + ay*i)(bx + by*i) = (ax*bx + ay*by) + i(ax*by-ay*bx)
-   * atan2(y,x) computes the principal value of the argument function
+   * assimp_math::atan2(y,x) computes the principal value of the argument function
    * applied to the complex number x+iy
    * Where x = ax*bx + ay*by
    *       y = ax*by - ay*bx
@@ -336,7 +336,7 @@ double Sweep::HoleAngle(const Node& node) const
   const double ay = node.next->point->y - node.point->y;
   const double bx = node.prev->point->x - node.point->x;
   const double by = node.prev->point->y - node.point->y;
-  return atan2(ax * by - ay * bx, ax * bx + ay * by);
+  return assimp_math::atan2(ax * by - ay * bx, ax * bx + ay * by);
 }
 
 bool Sweep::Legalize(SweepContext& tcx, Triangle& t)

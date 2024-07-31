@@ -27,7 +27,7 @@
 #endif
 
 #ifndef PUGIXML_NO_XPATH
-#	include <math.h>
+#	include <streflop/streflop_cond.h>
 #	include <float.h>
 #endif
 
@@ -8581,14 +8581,14 @@ PUGI__NS_BEGIN
 
 	PUGI__FN double round_nearest(double value)
 	{
-		return floor(value + 0.5);
+		return assimp_math::floor(value + 0.5);
 	}
 
 	PUGI__FN double round_nearest_nzero(double value)
 	{
 		// same as round_nearest, but returns -0 for [-0.5, -0]
 		// ceil is used to differentiate between +0 and -0 (we return -0 for [-0.5, -0] and +0 for +0)
-		return (value >= -0.5 && value <= 0) ? ceil(value) : floor(value + 0.5);
+		return (value >= -0.5 && value <= 0) ? assimp_math::ceil(value) : assimp_math::floor(value + 0.5);
 	}
 
 	PUGI__FN const char_t* qualified_name(const xpath_node& node)
@@ -9605,7 +9605,7 @@ PUGI__NS_BEGIN
 		ast_func_number_0,				// number()
 		ast_func_number_1,				// number(left)
 		ast_func_sum,					// sum(left)
-		ast_func_floor,					// floor(left)
+		ast_func_floor,					// assimp_math::floor(left)
 		ast_func_ceiling,				// ceiling(left)
 		ast_func_round,					// round(left)
 		ast_step,						// process set left with step
@@ -10624,7 +10624,7 @@ PUGI__NS_BEGIN
 				return _left->eval_number(c, stack) / _right->eval_number(c, stack);
 
 			case ast_op_mod:
-				return fmod(_left->eval_number(c, stack), _right->eval_number(c, stack));
+				return assimp_math::fmod(_left->eval_number(c, stack), _right->eval_number(c, stack));
 
 			case ast_op_negate:
 				return -_left->eval_number(c, stack);
@@ -10691,14 +10691,14 @@ PUGI__NS_BEGIN
 			{
 				double r = _left->eval_number(c, stack);
 
-				return r == r ? floor(r) : r;
+				return r == r ? assimp_math::floor(r) : r;
 			}
 
 			case ast_func_ceiling:
 			{
 				double r = _left->eval_number(c, stack);
 
-				return r == r ? ceil(r) : r;
+				return r == r ? assimp_math::ceil(r) : r;
 			}
 
 			case ast_func_round:

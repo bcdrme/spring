@@ -1,6 +1,6 @@
 #include "draco/compression/entropy/shannon_entropy.h"
 
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <vector>
 
 #include "draco/compression/entropy/rans_symbol_coding.h"
@@ -134,7 +134,7 @@ int64_t ShannonEntropyTracker::GetNumberOfDataBits(
   // and number of bits required for the entropy is: num_values * entropy
   //
   return static_cast<int64_t>(
-      ceil(entropy_data.num_values * std::log2(entropy_data.num_values) -
+      assimp_math::ceil(entropy_data.num_values * std::log2(entropy_data.num_values) -
            entropy_data.entropy_norm));
 }
 

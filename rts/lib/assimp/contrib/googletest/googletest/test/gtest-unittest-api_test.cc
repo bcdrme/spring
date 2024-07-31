@@ -62,7 +62,7 @@ class UnitTestHelper {
     for (int i = 0; i < unit_test.total_test_suite_count(); ++i)
       test_suites[i] = unit_test.GetTestSuite(i);
 
-    std::sort(test_suites, test_suites + unit_test.total_test_suite_count(),
+    std::stable_sort(test_suites, test_suites + unit_test.total_test_suite_count(),
               LessByName<TestSuite>());
     return test_suites;
   }
@@ -88,7 +88,7 @@ class UnitTestHelper {
     for (int i = 0; i < test_suite->total_test_count(); ++i)
       tests[i] = test_suite->GetTestInfo(i);
 
-    std::sort(tests, tests + test_suite->total_test_count(),
+    std::stable_sort(tests, tests + test_suite->total_test_count(),
               LessByName<TestInfo>());
     return tests;
   }

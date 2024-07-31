@@ -489,7 +489,7 @@ void FBXConverter::ConvertCamera(const Camera &cam, const std::string &orig_name
         float film_width_inches = cam.FilmWidth();
         float focal_length_mm = cam.FocalLength();
         ASSIMP_LOG_VERBOSE_DEBUG("FBX FOV unspecified. Computing from FilmWidth (", film_width_inches, "inches) and FocalLength (", focal_length_mm, "mm).");
-        double half_fov_rad = std::atan2(film_width_inches * 25.4 * 0.5, focal_length_mm);
+        double half_fov_rad = assimp_math::atan2(film_width_inches * 25.4 * 0.5, focal_length_mm);
         out_camera->mHorizontalFOV = static_cast<float>(half_fov_rad);
     } else {
         // FBX fov is full-view degrees. We want half-view radians.
@@ -625,15 +625,15 @@ void FBXConverter::GetRotationMatrix(Model::RotOrder mode, const aiVector3D &rot
 
     aiMatrix4x4 temp[3];
     const auto rot = AI_DEG_TO_RAD(rotation);
-    if (std::fabs(rot.z) > angle_epsilon) {
+    if (assimp_math::fabs(rot.z) > angle_epsilon) {
         aiMatrix4x4::RotationZ(rot.z, temp[2]);
         is_id[2] = false;
     }
-    if (std::fabs(rot.y) > angle_epsilon) {
+    if (assimp_math::fabs(rot.y) > angle_epsilon) {
         aiMatrix4x4::RotationY(rot.y, temp[1]);
         is_id[1] = false;
     }
-    if (std::fabs(rot.x) > angle_epsilon) {
+    if (assimp_math::fabs(rot.x) > angle_epsilon) {
         aiMatrix4x4::RotationX(rot.x, temp[0]);
         is_id[0] = false;
     }
@@ -832,7 +832,7 @@ bool FBXConverter::GenerateTransformationNodeChain(const Model &model, const std
         aiVector3D GeometricScalingInverse = GeometricScaling;
         bool canscale = true;
         for (unsigned int i = 0; i < 3; ++i) {
-            if (std::fabs(GeometricScalingInverse[i]) > zero_epsilon) {
+            if (assimp_math::fabs(GeometricScalingInverse[i]) > zero_epsilon) {
                 GeometricScalingInverse[i] = 1.0f / GeometricScaling[i];
             } else {
                 FBXImporter::LogError("cannot invert geometric scaling matrix with a 0.0 scale component");
@@ -2279,7 +2279,7 @@ void FBXConverter::SetShadingPropertiesCommon(aiMaterial *out_mat, const Propert
     if (ok) {
         out_mat->AddProperty(&ShininessExponent, 1, AI_MATKEY_SHININESS);
          // Match Blender behavior to extract roughness when only shininess is present
-        const float roughness = 1.0f - (sqrt(ShininessExponent) / 10.0f);
+        const float roughness = 1.0f - (assimp_math::sqrt(ShininessExponent) / 10.0f);
         out_mat->AddProperty(&roughness, 1, AI_MATKEY_ROUGHNESS_FACTOR);
     }
 
@@ -3261,7 +3261,7 @@ aiNodeAnim* FBXConverter::GenerateSimpleNodeAnim(const std::string& name,
         }
 
         // remove duplicates
-        std::sort(keytimes.begin(), keytimes.end());
+        std::stable_sort(keytimes.begin(), keytimes.end());
 
         auto last = std::unique(keytimes.begin(), keytimes.end());
         keytimes.erase(last, keytimes.end());
@@ -3446,7 +3446,7 @@ FBXConverter::KeyFrameListList FBXConverter::GetRotationKeyframeList(const std::
                 float vc = curve->GetValues().at(1);
                 for (size_t n = 1; n < count; n++) {
                     while (std::abs(vc - vp) >= 180.0f) {
-                        double step = std::floor(double(tc - tp) / std::abs(vc - vp) * 179.0f);
+                        double step = assimp_math::floor(double(tc - tp) / std::abs(vc - vp) * 179.0f);
                         int64_t tnew = tp + int64_t(step);
                         float vnew = vp + (vc - vp) * float(step / (tc - tp));
                         if (tnew >= adj_start && tnew <= adj_stop) {

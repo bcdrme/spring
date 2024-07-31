@@ -16,7 +16,7 @@
 
 #include <algorithm>
 #include <cctype>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <iterator>
 #include <limits>
 
@@ -127,7 +127,7 @@ bool ParseFloat(DecoderBuffer *buffer, float *value) {
       }
 
       // Apply exponent scaling to value.
-      v *= pow(static_cast<double>(10.0), exponent);
+      v *= assimp_math::pow(static_cast<double>(10.0), exponent);
     }
   }
 

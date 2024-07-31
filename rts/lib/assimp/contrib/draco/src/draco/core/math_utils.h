@@ -23,11 +23,11 @@ namespace draco {
 
 #define DRACO_INCREMENT_MOD(I, M) (((I) == ((M)-1)) ? 0 : ((I) + 1))
 
-// Returns floor(sqrt(x)) where x is an integer number. The main intend of this
+// Returns assimp_math::floor(sqrt(x)) where x is an integer number. The main intend of this
 // function is to provide a cross platform and deterministic implementation of
 // square root for integer numbers. This function is not intended to be a
-// replacement for std::sqrt() for general cases. IntSqrt is in fact about 3X
-// slower compared to most implementation of std::sqrt().
+// replacement for assimp_math::sqrt() for general cases. IntSqrt is in fact about 3X
+// slower compared to most implementation of assimp_math::sqrt().
 inline uint64_t IntSqrt(uint64_t number) {
   if (number == 0) {
     return 0;
@@ -40,7 +40,7 @@ inline uint64_t IntSqrt(uint64_t number) {
     square_root *= 2;
     act_number /= 4;
   }
-  // Perform Newton's (or Babylonian) method to find the true floor(sqrt()).
+  // Perform Newton's (or Babylonian) method to find the true assimp_math::floor(sqrt()).
   do {
     // New |square_root| estimate is computed as the average between
     // |square_root| and |number / square_root|.

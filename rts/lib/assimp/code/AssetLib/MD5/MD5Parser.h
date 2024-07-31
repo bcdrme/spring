@@ -253,7 +253,7 @@ inline void ConvertQuaternion (const aiVector3D& in, aiQuaternion& out) {
     if (t < 0.0f) {
         out.w = 0.0f;
     } else {
-        out.w = std::sqrt (t);
+        out.w = assimp_math::sqrt (t);
     }
 
     // Assimp convention.

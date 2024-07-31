@@ -1116,8 +1116,8 @@ TEST(PrintStlContainerTest, HashMultiSet) {
   }
 
   // Makes sure the result contains the right numbers.
-  std::sort(numbers.begin(), numbers.end());
-  std::sort(a, a + kSize);
+  std::stable_sort(numbers.begin(), numbers.end());
+  std::stable_sort(a, a + kSize);
   EXPECT_TRUE(std::equal(a, a + kSize, numbers.begin()));
 }
 

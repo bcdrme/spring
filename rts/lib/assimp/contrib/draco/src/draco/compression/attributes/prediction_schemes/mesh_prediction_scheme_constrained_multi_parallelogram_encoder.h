@@ -16,7 +16,7 @@
 #define DRACO_COMPRESSION_ATTRIBUTES_PREDICTION_SCHEMES_MESH_PREDICTION_SCHEME_CONSTRAINED_MULTI_PARALLELOGRAM_ENCODER_H_
 
 #include <algorithm>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 
 #include "draco/compression/attributes/prediction_schemes/mesh_prediction_scheme_constrained_multi_parallelogram_shared.h"
 #include "draco/compression/attributes/prediction_schemes/mesh_prediction_scheme_encoder.h"
@@ -92,7 +92,7 @@ class MeshPredictionSchemeConstrainedMultiParallelogramEncoder
 
     // Round up to the nearest full bit.
     return static_cast<int64_t>(
-        ceil(static_cast<double>(total_parallelogram) * entropy));
+        assimp_math::ceil(static_cast<double>(total_parallelogram) * entropy));
   }
 
   // Struct that contains data used for measuring the error of each available

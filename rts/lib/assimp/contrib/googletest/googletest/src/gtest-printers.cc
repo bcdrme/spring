@@ -294,7 +294,7 @@ void PrintTo(__uint128_t v, ::std::ostream* os) {
     return;
   }
 
-  // Buffer large enough for ceil(log10(2^128))==39 and the null terminator
+  // Buffer large enough for assimp_math::ceil(log10(2^128))==39 and the null terminator
   char buf[40];
   char* p = buf + sizeof(buf);
 

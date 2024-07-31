@@ -15,7 +15,7 @@
 #include "draco/compression/entropy/symbol_decoding.h"
 
 #include <algorithm>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 
 #include "draco/compression/entropy/rans_symbol_decoder.h"
 

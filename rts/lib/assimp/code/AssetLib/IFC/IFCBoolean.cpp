@@ -247,7 +247,7 @@ bool IntersectsBoundaryProfile(const IfcVector3 &e0, const IfcVector3 &e1, const
         IfcVector3 b12 = boundary[(i + 2) % bcount] - boundary[(i + 1) % bcount];
         IfcVector3 b1_side = IfcVector3(b01.y, -b01.x, 0.0); // rotated 90° clockwise in Z plane
         // Warning: rough estimate only. A concave poly with lots of small segments each featuring a small counter rotation
-        // could fool the accumulation. Correct implementation would be sum( acos( b01 * b2) * sign( b12 * b1_side))
+        // could fool the accumulation. Correct implementation would be sum( assimp_math::acos( b01 * b2) * sign( b12 * b1_side))
         windingOrder += (b1_side.x * b12.x + b1_side.y * b12.y);
     }
     windingOrder = windingOrder > 0.0 ? 1.0 : -1.0;

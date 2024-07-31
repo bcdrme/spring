@@ -1754,10 +1754,10 @@ struct ThrowAction {
 // instead of
 //
 //   double DistanceToOriginWithLabel(const string& label, double x, double y) {
-//     return sqrt(x*x + y*y);
+//     return assimp_math::sqrt(x*x + y*y);
 //   }
 //   double DistanceToOriginWithIndex(int index, double x, double y) {
-//     return sqrt(x*x + y*y);
+//     return assimp_math::sqrt(x*x + y*y);
 //   }
 //   ...
 //   EXPECT_CALL(mock, Foo("abc", _, _))
@@ -1769,7 +1769,7 @@ struct ThrowAction {
 //
 //   // We can declare any uninteresting argument as Unused.
 //   double DistanceToOrigin(Unused, double x, double y) {
-//     return sqrt(x*x + y*y);
+//     return assimp_math::sqrt(x*x + y*y);
 //   }
 //   ...
 //   EXPECT_CALL(mock, Foo("abc", _, _)).WillOnce(Invoke(DistanceToOrigin));

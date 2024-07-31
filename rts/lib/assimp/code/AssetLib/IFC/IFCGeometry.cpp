@@ -227,7 +227,7 @@ void ProcessRevolvedAreaSolid(const Schema_2x3::IfcRevolvedAreaSolid& solid, Tem
 
     bool has_area = solid.SweptArea->ProfileType == "AREA" && size>2;
     const IfcFloat max_angle = solid.Angle*conv.angle_scale;
-    if(std::fabs(max_angle) < 1e-3) {
+    if(assimp_math::fabs(max_angle) < 1e-3) {
         if(has_area) {
             result = meshout;
         }
@@ -235,10 +235,10 @@ void ProcessRevolvedAreaSolid(const Schema_2x3::IfcRevolvedAreaSolid& solid, Tem
     }
 
     const unsigned int cnt_segments = 
-        std::max(2u,static_cast<unsigned int>(conv.settings.cylindricalTessellation * std::fabs(max_angle)/AI_MATH_HALF_PI_F));
+        std::max(2u,static_cast<unsigned int>(conv.settings.cylindricalTessellation * assimp_math::fabs(max_angle)/AI_MATH_HALF_PI_F));
     const IfcFloat delta = max_angle/cnt_segments;
 
-    has_area = has_area && std::fabs(max_angle) < AI_MATH_TWO_PI_F*0.99;
+    has_area = has_area && assimp_math::fabs(max_angle) < AI_MATH_TWO_PI_F*0.99;
 
     result.mVerts.reserve(size*((cnt_segments+1)*4+(has_area?2:0)));
     result.mVertcnt.reserve(size*cnt_segments+2);
@@ -456,7 +456,7 @@ IfcMatrix3 DerivePlaneCoordinateSpace(const TempMesh& curmesh, bool& ok, IfcVect
         idx = i;
         for (size_t j = i+1; j < s-1; ++j) {
             nor = -((out[i]-any_point)^(out[j]-any_point));
-            if(std::fabs(nor.Length()) > 1e-8f) {
+            if(assimp_math::fabs(nor.Length()) > 1e-8f) {
                 done = true;
                 break;
             }
@@ -506,7 +506,7 @@ bool areClose(Schema_2x3::IfcCartesianPoint pt1,Schema_2x3::IfcCartesianPoint pt
     // we're just testing each dimension separately rather than doing euclidean distance, as we're
     // looking for very close coordinates
     for(; coord1 != pt1.Coordinates.end(); coord1++,coord2++) {
-        if(std::fabs(*coord1 - *coord2) > closeDistance) {
+        if(assimp_math::fabs(*coord1 - *coord2) > closeDistance) {
             return false;
         }
     }
@@ -514,9 +514,9 @@ bool areClose(Schema_2x3::IfcCartesianPoint pt1,Schema_2x3::IfcCartesianPoint pt
 }
 
 bool areClose(IfcVector3 pt1,IfcVector3 pt2) {
-    return (std::fabs(pt1.x - pt2.x) < closeDistance &&
-        std::fabs(pt1.y - pt2.y) < closeDistance &&
-        std::fabs(pt1.z - pt2.z) < closeDistance);
+    return (assimp_math::fabs(pt1.x - pt2.x) < closeDistance &&
+        assimp_math::fabs(pt1.y - pt2.y) < closeDistance &&
+        assimp_math::fabs(pt1.z - pt2.z) < closeDistance);
 }
 
 // Extrudes the given polygon along the direction, converts it into an opening or applies all openings as necessary.
@@ -572,7 +572,7 @@ void ProcessExtrudedArea(const Schema_2x3::IfcExtrudedAreaSolid& solid, const Te
             // it is essential to apply the openings in the correct spatial order. The direction
             // doesn't matter, but we would screw up if we started with e.g. a door in between
             // two windows.
-            std::sort(conv.apply_openings->begin(), conv.apply_openings->end(), TempOpening::DistanceSorter(in[0]));
+            std::stable_sort(conv.apply_openings->begin(), conv.apply_openings->end(), TempOpening::DistanceSorter(in[0]));
         }
 
         nors.reserve(conv.apply_openings->size());

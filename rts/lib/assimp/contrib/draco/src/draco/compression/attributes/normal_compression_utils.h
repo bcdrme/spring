@@ -41,7 +41,7 @@
 #include <inttypes.h>
 
 #include <algorithm>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 
 #include "draco/core/macros.h"
 
@@ -145,9 +145,9 @@ class OctahedronToolBox {
     // Scale vector such that the sum equals the center value.
     int32_t int_vec[3];
     int_vec[0] =
-        static_cast<int32_t>(floor(scaled_vector[0] * center_value_ + 0.5));
+        static_cast<int32_t>(assimp_math::floor(scaled_vector[0] * center_value_ + 0.5));
     int_vec[1] =
-        static_cast<int32_t>(floor(scaled_vector[1] * center_value_ + 0.5));
+        static_cast<int32_t>(assimp_math::floor(scaled_vector[1] * center_value_ + 0.5));
     // Make sure the sum is exactly the center value.
     int_vec[2] = center_value_ - std::abs(int_vec[0]) - std::abs(int_vec[1]);
     if (int_vec[2] < 0) {
@@ -354,7 +354,7 @@ class OctahedronToolBox {
       out_vector[1] = 0;
       out_vector[2] = 0;
     } else {
-      const float d = 1.0f / std::sqrt(norm_squared);
+      const float d = 1.0f / assimp_math::sqrt(norm_squared);
       out_vector[0] = x * d;
       out_vector[1] = y * d;
       out_vector[2] = z * d;

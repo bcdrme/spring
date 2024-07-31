@@ -178,7 +178,7 @@ void StepExporter::WriteFile()
     std::vector<int> faceEntryLen; // numbers of entries for a triangle/face
     // prepare unique (count triangles and vertices)
 
-    VectorIndexUMap uniqueVerts; // use a map to reduce find complexity to log(n)
+    VectorIndexUMap uniqueVerts; // use a map to reduce find complexity to assimp_math::log(n)
     VectorIndexUMap::iterator it;
 
     for (unsigned int i=0; i<mScene->mNumMeshes; ++i)

@@ -55,7 +55,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <algorithm>
 #include <limits>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 
 // ----------------------------------------------------------------------------------------
 template <typename TReal>
@@ -428,29 +428,29 @@ void aiMatrix4x4t<TReal>::Decompose(aiVector3t<TReal>& pScaling, aiVector3t<TRea
         |   0     0       0    1  |
 
     where
-	A = cos(angle_x), B = sin(angle_x);
-	C = cos(angle_y), D = sin(angle_y);
-	E = cos(angle_z), F = sin(angle_z);
+	A = assimp_math::cos(angle_x), B = assimp_math::sin(angle_x);
+	C = assimp_math::cos(angle_y), D = assimp_math::sin(angle_y);
+	E = assimp_math::cos(angle_z), F = assimp_math::sin(angle_z);
 	*/
 
 	// Use a small epsilon to solve floating-point inaccuracies
     const TReal epsilon = Assimp::Math::getEpsilon<TReal>();
 
-	pRotation.y  = std::asin(-vCols[0].z);// D. Angle around oY.
+	pRotation.y  = assimp_math::asin(-vCols[0].z);// D. Angle around oY.
 
-	TReal C = std::cos(pRotation.y);
+	TReal C = assimp_math::cos(pRotation.y);
 
-	if(std::fabs(C) > epsilon)
+	if(assimp_math::fabs(C) > epsilon)
 	{
 		// Finding angle around oX.
 		TReal tan_x = vCols[2].z / C;// A
 		TReal tan_y = vCols[1].z / C;// B
 
-		pRotation.x = std::atan2(tan_y, tan_x);
+		pRotation.x = assimp_math::atan2(tan_y, tan_x);
 		// Finding angle around oZ.
 		tan_x = vCols[0].x / C;// E
 		tan_y = vCols[0].y / C;// F
-		pRotation.z = std::atan2(tan_y, tan_x);
+		pRotation.z = assimp_math::atan2(tan_y, tan_x);
 	}
 	else
 	{// oY is fixed.
@@ -460,7 +460,7 @@ void aiMatrix4x4t<TReal>::Decompose(aiVector3t<TReal>& pScaling, aiVector3t<TRea
 		TReal tan_x =  vCols[1].y;// BDF+AE => E
 		TReal tan_y = -vCols[1].x;// BDE-AF => F
 
-		pRotation.z = std::atan2(tan_y, tan_x);
+		pRotation.z = assimp_math::atan2(tan_y, tan_x);
 	}
 }
 
@@ -476,14 +476,14 @@ void aiMatrix4x4t<TReal>::Decompose(aiVector3t<TReal>& pScaling, aiVector3t<TRea
 	pRotation.Normalize();
 
 	TReal angle_cos = pRotation.w;
-	TReal angle_sin = std::sqrt(1.0f - angle_cos * angle_cos);
+	TReal angle_sin = assimp_math::sqrt(1.0f - angle_cos * angle_cos);
 
-	pRotationAngle = std::acos(angle_cos) * 2;
+	pRotationAngle = assimp_math::acos(angle_cos) * 2;
 
 	// Use a small epsilon to solve floating-point inaccuracies
     const TReal epsilon = 10e-3f;
 
-	if(std::fabs(angle_sin) < epsilon) angle_sin = 1;
+	if(assimp_math::fabs(angle_sin) < epsilon) angle_sin = 1;
 
 	pRotationAxis.x = pRotation.x / angle_sin;
 	pRotationAxis.y = pRotation.y / angle_sin;
@@ -519,12 +519,12 @@ AI_FORCE_INLINE
 aiMatrix4x4t<TReal>& aiMatrix4x4t<TReal>::FromEulerAnglesXYZ(TReal x, TReal y, TReal z) {
     aiMatrix4x4t<TReal>& _this = *this;
 
-    TReal cx = std::cos(x);
-    TReal sx = std::sin(x);
-    TReal cy = std::cos(y);
-    TReal sy = std::sin(y);
-    TReal cz = std::cos(z);
-    TReal sz = std::sin(z);
+    TReal cx = assimp_math::cos(x);
+    TReal sx = assimp_math::sin(x);
+    TReal cy = assimp_math::cos(y);
+    TReal sy = assimp_math::sin(y);
+    TReal cz = assimp_math::cos(z);
+    TReal sz = assimp_math::sin(z);
 
     // mz*my*mx
     _this.a1 = cz * cy;
@@ -570,12 +570,12 @@ AI_FORCE_INLINE
 aiMatrix4x4t<TReal>& aiMatrix4x4t<TReal>::RotationX(TReal a, aiMatrix4x4t<TReal>& out) {
     /*
          |  1  0       0       0 |
-     M = |  0  cos(A) -sin(A)  0 |
-         |  0  sin(A)  cos(A)  0 |
+     M = |  0  assimp_math::cos(A) -assimp_math::sin(A)  0 |
+         |  0  assimp_math::sin(A)  assimp_math::cos(A)  0 |
          |  0  0       0       1 |  */
     out = aiMatrix4x4t<TReal>();
-    out.b2 = out.c3 = std::cos(a);
-    out.b3 = -(out.c2 = std::sin(a));
+    out.b2 = out.c3 = assimp_math::cos(a);
+    out.b3 = -(out.c2 = assimp_math::sin(a));
     return out;
 }
 
@@ -584,14 +584,14 @@ template <typename TReal>
 AI_FORCE_INLINE
 aiMatrix4x4t<TReal>& aiMatrix4x4t<TReal>::RotationY(TReal a, aiMatrix4x4t<TReal>& out) {
     /*
-         |  cos(A)  0   sin(A)  0 |
+         |  assimp_math::cos(A)  0   assimp_math::sin(A)  0 |
      M = |  0       1   0       0 |
-         | -sin(A)  0   cos(A)  0 |
+         | -assimp_math::sin(A)  0   assimp_math::cos(A)  0 |
          |  0       0   0       1 |
         */
     out = aiMatrix4x4t<TReal>();
-    out.a1 = out.c3 = std::cos(a);
-    out.c1 = -(out.a3 = std::sin(a));
+    out.a1 = out.c3 = assimp_math::cos(a);
+    out.c1 = -(out.a3 = assimp_math::sin(a));
     return out;
 }
 
@@ -600,13 +600,13 @@ template <typename TReal>
 AI_FORCE_INLINE
 aiMatrix4x4t<TReal>& aiMatrix4x4t<TReal>::RotationZ(TReal a, aiMatrix4x4t<TReal>& out) {
     /*
-         |  cos(A)  -sin(A)   0   0 |
-     M = |  sin(A)   cos(A)   0   0 |
+         |  assimp_math::cos(A)  -assimp_math::sin(A)   0   0 |
+     M = |  assimp_math::sin(A)   assimp_math::cos(A)   0   0 |
          |  0        0        1   0 |
          |  0        0        0   1 |   */
     out = aiMatrix4x4t<TReal>();
-    out.a1 = out.b2 = std::cos(a);
-    out.a2 = -(out.b1 = std::sin(a));
+    out.a1 = out.b2 = assimp_math::cos(a);
+    out.a2 = -(out.b1 = assimp_math::sin(a));
     return out;
 }
 
@@ -615,7 +615,7 @@ aiMatrix4x4t<TReal>& aiMatrix4x4t<TReal>::RotationZ(TReal a, aiMatrix4x4t<TReal>
 template <typename TReal>
 AI_FORCE_INLINE
 aiMatrix4x4t<TReal>& aiMatrix4x4t<TReal>::Rotation( TReal a, const aiVector3t<TReal>& axis, aiMatrix4x4t<TReal>& out) {
-    TReal c = std::cos( a), s = std::sin( a), t = 1 - c;
+    TReal c = assimp_math::cos( a), s = assimp_math::sin( a), t = 1 - c;
     TReal x = axis.x, y = axis.y, z = axis.z;
 
     // Many thanks to MathWorld and Wikipedia

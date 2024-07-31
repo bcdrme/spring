@@ -75,7 +75,7 @@ Other:
 
 #include <algorithm>
 #include <cctype>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <fstream>
 #include <functional>
 #include <iostream>

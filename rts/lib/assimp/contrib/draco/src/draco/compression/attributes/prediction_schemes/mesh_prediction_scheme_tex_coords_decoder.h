@@ -16,7 +16,7 @@
 #ifndef DRACO_COMPRESSION_ATTRIBUTES_PREDICTION_SCHEMES_MESH_PREDICTION_SCHEME_TEX_COORDS_DECODER_H_
 #define DRACO_COMPRESSION_ATTRIBUTES_PREDICTION_SCHEMES_MESH_PREDICTION_SCHEME_TEX_COORDS_DECODER_H_
 
-#include <math.h>
+#include <streflop/streflop_cond.h>
 
 #include "draco/compression/attributes/prediction_schemes/mesh_prediction_scheme_decoder.h"
 #include "draco/compression/bit_coders/rans_bit_decoder.h"
@@ -220,7 +220,7 @@ bool MeshPredictionSchemeTexCoordsDecoder<DataTypeT, TransformT, MeshDataT>::
       // Technically floats > INT_MAX are undefined, but compilers will
       // convert those values to INT_MIN. We are being explicit here for asan.
       for (const int i : {0, 1}) {
-        if (std::isnan(p_uv[i]) || static_cast<double>(p_uv[i]) > INT_MAX ||
+        if (assimp_math::isnan(p_uv[i]) || static_cast<double>(p_uv[i]) > INT_MAX ||
             static_cast<double>(p_uv[i]) < INT_MIN) {
           predicted_value_[i] = INT_MIN;
         } else {
@@ -274,8 +274,8 @@ bool MeshPredictionSchemeTexCoordsDecoder<DataTypeT, TransformT, MeshDataT>::
       s = pn.Dot(cn) / pn_norm2_squared;
       // To get the coordinate t, we can use formula:
       //      t = |C-N - (P-N) * s| / |P-N|
-      // Do not use std::sqrt to avoid changes in the bitstream.
-      t = sqrt((cn - pn * s).SquaredNorm() / pn_norm2_squared);
+      // Do not use assimp_math::sqrt to avoid changes in the bitstream.
+      t = assimp_math::sqrt((cn - pn * s).SquaredNorm() / pn_norm2_squared);
     } else {
       s = 0;
       t = 0;
@@ -317,14 +317,14 @@ bool MeshPredictionSchemeTexCoordsDecoder<DataTypeT, TransformT, MeshDataT>::
       // Round the predicted value for integer types.
       // Technically floats > INT_MAX are undefined, but compilers will
       // convert those values to INT_MIN. We are being explicit here for asan.
-      const double u = floor(predicted_uv[0] + 0.5);
-      if (std::isnan(u) || u > INT_MAX || u < INT_MIN) {
+      const double u = assimp_math::floor(predicted_uv[0] + 0.5);
+      if (assimp_math::isnan(u) || u > INT_MAX || u < INT_MIN) {
         predicted_value_[0] = INT_MIN;
       } else {
         predicted_value_[0] = static_cast<int>(u);
       }
-      const double v = floor(predicted_uv[1] + 0.5);
-      if (std::isnan(v) || v > INT_MAX || v < INT_MIN) {
+      const double v = assimp_math::floor(predicted_uv[1] + 0.5);
+      if (assimp_math::isnan(v) || v > INT_MAX || v < INT_MIN) {
         predicted_value_[1] = INT_MIN;
       } else {
         predicted_value_[1] = static_cast<int>(v);

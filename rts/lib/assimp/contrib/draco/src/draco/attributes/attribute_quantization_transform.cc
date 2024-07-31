@@ -153,8 +153,8 @@ bool AttributeQuantizationTransform::ComputeParameters(
     }
   }
   for (int c = 0; c < num_components; ++c) {
-    if (std::isnan(min_values_[c]) || std::isinf(min_values_[c]) ||
-        std::isnan(max_values[c]) || std::isinf(max_values[c])) {
+    if (assimp_math::isnan(min_values_[c]) || assimp_math::isinf(min_values_[c]) ||
+        assimp_math::isnan(max_values[c]) || assimp_math::isinf(max_values[c])) {
       return false;
     }
     const float dif = max_values[c] - min_values_[c];

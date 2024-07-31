@@ -242,7 +242,7 @@ AI_FORCE_INLINE
 bool aiColor4t<TReal>::IsBlack() const {
     // The alpha component doesn't care here. black is black.
     static const TReal epsilon = 10e-3f;
-    return std::fabs( r ) < epsilon && std::fabs( g ) < epsilon && std::fabs( b ) < epsilon;
+    return assimp_math::fabs( r ) < epsilon && assimp_math::fabs( g ) < epsilon && assimp_math::fabs( b ) < epsilon;
 }
 
 #endif // __cplusplus

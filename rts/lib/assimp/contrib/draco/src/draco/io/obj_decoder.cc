@@ -16,7 +16,7 @@
 
 #include <algorithm>
 #include <cctype>
-#include <cmath>
+#include <streflop/streflop_cond.h>
 #include <utility>
 
 #include "draco/io/file_utils.h"
