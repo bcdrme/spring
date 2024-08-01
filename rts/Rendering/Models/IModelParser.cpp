@@ -36,12 +36,18 @@ static CAssParser gAssParser;
 
 
 static bool CheckAssimpWhitelist(const char* aiExt) {
-	constexpr std::array<const char*, 5> whitelist = {
+	static constexpr std::array whitelist = {
 		"3ds"  , // 3DSMax
 		"dae"  , // Collada
 		"lwo"  , // LightWave
 		"obj"  ,
 		"blend", // Blender
+		"gltf" , // GLTF
+		"glb"  , // GLTF (binary)
+		"usd"  , // USD ASCII or binary-encoded
+		"usda" , // USD ASCII encoded
+		"usdc" , // USD binary encoded
+		"usdz"   // USD compressed, ASCII or binary-encoded
 	};
 
 	const auto pred = [&aiExt](const char* wlExt) { return (strcmp(aiExt, wlExt) == 0); };
