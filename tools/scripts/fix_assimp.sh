@@ -57,6 +57,7 @@ echo Special processing of $FA
 
 #sed -i 's/double/float/g' code/PolyTools.h
 
-rm -rf .git || true
-rm -rf .github || true
-rm -rf .gitignore || true
+#rm -rf .git || true
+#rm -rf .github || true
+#rm -rf .gitignore || true
+#rm -rf .gitattributes || true
