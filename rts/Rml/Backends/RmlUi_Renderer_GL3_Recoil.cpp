@@ -525,7 +525,7 @@ static bool CreateFramebuffer(
 #endif
 
 	constexpr GLenum color_format = GL_RGBA8;   // GL_RGBA8 GL_SRGB8_ALPHA8 GL_RGBA16F
-	constexpr GLint min_mag_filter = GL_LINEAR; // GL_NEAREST
+	constexpr GLint min_mag_filter = GL_NEAREST; // GL_NEAREST
 	const Rml::Colourf border_color(0.f, 0.f);
 
 	GLuint framebuffer = 0;
@@ -696,7 +696,7 @@ void RenderInterface_GL3_Recoil::SetViewport(int width, int height)
 
 void RenderInterface_GL3_Recoil::BeginFrame()
 {
-	RMLUI_ASSERT(viewport_width >= 1 && viewport_height >= 1)
+	RMLUI_ASSERT(viewport_width >= 1 && viewport_height >= 1);
 
 	// Backup GL state.
 	glstate_backup.enable_cull_face = glIsEnabled(GL_CULL_FACE);
@@ -761,6 +761,8 @@ void RenderInterface_GL3_Recoil::BeginFrame()
 	glStencilMask(GLuint(-1));
 	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
 
+	glDisable(GL_DEPTH_TEST);
+
 	SetTransform(nullptr);
 
 	render_layers.BeginFrame(viewport_width, viewport_height);
@@ -798,8 +800,6 @@ void RenderInterface_GL3_Recoil::EndFrame()
 
 	render_layers.EndFrame();
 
-	UseProgram(ProgramId::None);
-
 	// Restore GL state.
 	if (glstate_backup.enable_cull_face)
 		glEnable(GL_CULL_FACE);
@@ -836,9 +836,9 @@ void RenderInterface_GL3_Recoil::EndFrame()
 	glClearStencil(glstate_backup.stencil_clear_value);
 	glClearColor(glstate_backup.color_clear_value[0], glstate_backup.color_clear_value[1],
 				 glstate_backup.color_clear_value[2],
-				 glstate_backup.color_clear_value[3]);
+		glstate_backup.color_clear_value[3]);
 	glColorMask(glstate_backup.color_writemask[0], glstate_backup.color_writemask[1], glstate_backup.color_writemask[2],
-				glstate_backup.color_writemask[3]);
+		glstate_backup.color_writemask[3]);
 
 	glBlendEquationSeparate(glstate_backup.blend_equation_rgb, glstate_backup.blend_equation_alpha);
 	glBlendFuncSeparate(glstate_backup.blend_src_rgb, glstate_backup.blend_dst_rgb, glstate_backup.blend_src_alpha,
@@ -848,13 +848,13 @@ void RenderInterface_GL3_Recoil::EndFrame()
 						  glstate_backup.stencil_front.value_mask);
 	glStencilMaskSeparate(GL_FRONT, glstate_backup.stencil_front.writemask);
 	glStencilOpSeparate(GL_FRONT, glstate_backup.stencil_front.fail, glstate_backup.stencil_front.pass_depth_fail,
-						glstate_backup.stencil_front.pass_depth_pass);
+		glstate_backup.stencil_front.pass_depth_pass);
 
 	glStencilFuncSeparate(GL_BACK, glstate_backup.stencil_back.func, glstate_backup.stencil_back.ref,
 						  glstate_backup.stencil_back.value_mask);
 	glStencilMaskSeparate(GL_BACK, glstate_backup.stencil_back.writemask);
 	glStencilOpSeparate(GL_BACK, glstate_backup.stencil_back.fail, glstate_backup.stencil_back.pass_depth_fail,
-						glstate_backup.stencil_back.pass_depth_pass);
+		glstate_backup.stencil_back.pass_depth_pass);
 
 	Gfx::CheckGLError("EndFrame");
 }
